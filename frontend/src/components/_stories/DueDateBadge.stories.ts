@@ -1,11 +1,20 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { CheckButton } from "../CheckButton.tsx";
+import DueDateBadge from "../DueDateBadge.tsx";
 
 const meta = {
-  title: "CheckButton",
-  component: CheckButton,
-} satisfies Meta<typeof CheckButton>;
+  title: "Components/DueDateBadge",
+  component: DueDateBadge,
+  tags: ["autodocs", "!dev"],
+  parameters: {
+    docs: {
+      description: {
+        component: `Zeigt ein Datum mit einem kleinen Symbol in einem Kasten an.
+        `,
+      },
+    },
+  },
+} satisfies Meta<typeof DueDateBadge>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -13,22 +22,6 @@ type Story = StoryObj<typeof meta>;
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Primary: Story = {
   args: {
-    checked: true,
-    children: "Order by date",
-  },
-};
-
-export const Unchecked: Story = {
-  args: {
-    checked: false,
-    children: "Order by effort",
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    checked: false,
-    disabled: true,
-    children: "Order by effort",
+    dueDate: "2024-11-29",
   },
 };

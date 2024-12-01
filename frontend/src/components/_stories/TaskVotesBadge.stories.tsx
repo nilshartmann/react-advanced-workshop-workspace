@@ -1,23 +1,22 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { TaskSummaryCard } from "../TaskSummaryCard.tsx";
+import TaskVotesBadge from "../TaskVotesBadge.tsx";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "Tasks/TaskSummaryCard",
-  component: TaskSummaryCard,
+  title: "Tasks/TaskVotesBadge",
+  component: TaskVotesBadge,
   tags: ["autodocs", "!dev"],
   parameters: {
     docs: {
       description: {
-        component: `Zeigt die *Zusammenfassung* eines \`Tasks\` an.
+        component: `Zeigt die Anzahl *Votes* eines \`Tasks\` an (beliebige Zahl, die per Property übergeben wird).
         
-Die Karte kann ein- und ausgeklappt werden, um zum Beispiel eine initial platzsparende Darstellung innerhalb einer Liste zu ermöglichen.        
         `,
       },
     },
   },
-} satisfies Meta<typeof TaskSummaryCard>;
+} satisfies Meta<typeof TaskVotesBadge>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -26,14 +25,6 @@ type Story = StoryObj<typeof meta>;
 
 export const New: Story = {
   args: {
-    task: {
-      title: "Finish docs",
-      id: "T-1000",
-      description: "We really need to finish writing docs",
-      effort: 8,
-      state: "new",
-      votes: 3,
-      dueDate: "2024-11-23",
-    },
+    votes: 123,
   },
 };

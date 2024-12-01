@@ -1,12 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
+import React from "react";
+
+import DueDateBadge from "../../../components/DueDateBadge.tsx";
 import { H4, PageTitle } from "../../../components/Heading.tsx";
-import { allInsights, tasks } from "../../../dummy.ts";
+import InsightCard from "../../../components/InsightCard.tsx";
 import TaskStateBadge from "../../../components/TaskStateBadge.tsx";
 import TaskVotesBadge from "../../../components/TaskVotesBadge.tsx";
+import { allInsights, tasks } from "../../../dummy.ts";
 import { Insight } from "../../../types.ts";
-import DueDateBadge from "../../../components/DueDateBadge.tsx";
 
-export const Route = createFileRoute("/mock/$taskId/")({
+export const Route = createFileRoute("/tasks/$taskId/")({
   component: RouteComponent,
 });
 
@@ -61,32 +64,8 @@ function InsightList({ insights }: InsightListProps) {
     <div className={"border-1 w-full space-y-8 rounded-2xl bg-goldgray p-4"}>
       <H4>Insights</H4>
       {insights.map((i) => (
-        <InsightCard insight={i} />
+        <InsightCard key={i.id} insight={i} />
       ))}
-    </div>
-  );
-}
-
-type InsightCardProps = {
-  insight: Insight;
-};
-function InsightCard({ insight }: InsightCardProps) {
-  return (
-    <div
-      className={
-        "mb-8 rounded-2xl border border-dotted border-gray-300 bg-white pb-4 pe-4 ps-4 pt-4"
-      }
-    >
-      <p className={"leading-8"}>{insight.text}</p>
-      <div
-        className={
-          "border-emerald-200 bg-emerald-100 text-emerald-600 mt-2 inline-flex items-center space-x-1 rounded-md border-2 px-1 py-0.5 text-sm"
-        }
-      >
-        <i className="fa-solid fa-seedling"></i>
-        <span>confidence</span>
-        <span>{insight.confidence}</span>
-      </div>
     </div>
   );
 }

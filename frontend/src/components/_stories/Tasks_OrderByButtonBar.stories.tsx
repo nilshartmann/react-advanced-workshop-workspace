@@ -1,32 +1,28 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import InsightCard from "../InsightCard.tsx";
+import OrderByButtonBar from "../OrderByButtonBar.tsx";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "Tasks/InsightCard",
-  component: InsightCard,
+  title: "Tasks/OrderByButtonBar",
+  component: OrderByButtonBar,
   tags: ["autodocs", "!dev"],
   parameters: {
     docs: {
       description: {
-        story: `Stellt die \`Insights\`  eines Tasks dar in einer \`Card\` dar`,
+        story: `Zeigt die Buttons zum Sortieren der Task-Liste an.
+        
+- **todo:** Die Logik dafür müssen wir im Workshop implementieren.        
+        `,
       },
     },
   },
-} satisfies Meta<typeof InsightCard>;
+} satisfies Meta<typeof OrderByButtonBar>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Primary: Story = {
-  args: {
-    insight: {
-      id: "1",
-      author: "Laura Meier",
-      text: "Could be JavaScript-related",
-      confidence: 3,
-    },
-  },
+  args: {},
 };

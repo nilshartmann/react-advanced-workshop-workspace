@@ -1,20 +1,20 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { H4 } from "../Heading.tsx";
+import { PageTitle } from "../Heading.tsx";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "Heading/H4",
-  component: H4,
+  title: "Components/Heading/PageTitle",
+  component: PageTitle,
   tags: ["autodocs", "!dev"],
   parameters: {
     docs: {
       description: {
-        story: `Standard h4 Überschriften-Element`,
+        story: `Rendert den Titel einer Seite`,
       },
     },
   },
-} satisfies Meta<typeof H4>;
+} satisfies Meta<typeof PageTitle>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

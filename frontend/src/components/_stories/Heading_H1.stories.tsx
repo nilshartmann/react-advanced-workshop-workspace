@@ -4,7 +4,7 @@ import { H1 } from "../Heading.tsx";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "Heading/H1",
+  title: "Components/Heading/H1",
   component: H1,
   tags: ["autodocs", "!dev"],
   parameters: {

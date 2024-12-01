@@ -1,25 +1,36 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { H2 } from "../Heading.tsx";
+import { H4 } from "../Heading.tsx";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "Heading/H2",
-  component: H2,
+  title: "Components/Heading/H4",
+  component: H4,
   tags: ["autodocs", "!dev"],
   parameters: {
     docs: {
       description: {
-        story: `Standard h2 Überschriften-Element`,
+        component: `Standard h4 Überschriften-Element`,
       },
     },
   },
-} satisfies Meta<typeof H2>;
+} satisfies Meta<typeof H4>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const Primary: Story = {
+export const Regular: Story = {
   args: { children: "Hello World" },
+};
+
+export const Highlighted: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: `Mit anderer Vordergrundfarbe (\`className="text-red"\`)`,
+      },
+    },
+  },
+  args: { children: "Hello World", className: "text-red" },
 };

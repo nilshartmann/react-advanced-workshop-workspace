@@ -1,23 +1,22 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import OrderByButtonBar from "../OrderByButtonBar.tsx";
+import PlaceholderCard from "../PlaceholderCard.tsx";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "Tasks/OrderByButtonBar",
-  component: OrderByButtonBar,
+  title: "Components/PlaceholderCard",
+  component: PlaceholderCard,
   tags: ["autodocs", "!dev"],
   parameters: {
     docs: {
       description: {
-        story: `Zeigt die Buttons zum Sortieren der Task-Liste an.
+        story: `Zeigt einen animierten Platzhalten an, der einer \`TaskSummaryCard\` nachempfunden ist.
         
-- **todo:** Die Logik dafür müssen wir im Workshop implementieren.        
         `,
       },
     },
   },
-} satisfies Meta<typeof OrderByButtonBar>;
+} satisfies Meta<typeof PlaceholderCard>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

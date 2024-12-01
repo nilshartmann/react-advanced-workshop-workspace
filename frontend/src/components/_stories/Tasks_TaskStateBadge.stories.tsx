@@ -10,7 +10,7 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        story: `Zeigt den \`State\` eines \`Tasks\` an.
+        component: `Zeigt den \`State\` eines \`Tasks\` an.
         `,
       },
     },
