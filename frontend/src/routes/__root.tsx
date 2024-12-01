@@ -1,4 +1,8 @@
-import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
+import {
+  createRootRouteWithContext,
+  Outlet,
+  retainSearchParams,
+} from "@tanstack/react-router";
 
 import GlobalNavBar from "../components/GlobalNavBar.tsx";
 import MainLayout from "../components/MainLayout.tsx";
@@ -9,6 +13,9 @@ type AppRouterContext = {
 
 export const Route = createRootRouteWithContext<AppRouterContext>()({
   component: RootRoute,
+  search: {
+    middlewares: [retainSearchParams(true)],
+  },
 });
 
 export default function RootRoute() {

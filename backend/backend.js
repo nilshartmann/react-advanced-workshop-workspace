@@ -41,7 +41,7 @@ const tasks = [
     effort: 5,
     state: "in_progress",
     votes: 12,
-    dueDate: "2024-12-01",
+    dueDate: "2024-11-30",
   },
   {
     id: "2",
@@ -50,8 +50,8 @@ const tasks = [
       "The API documentation is incomplete, making it difficult for developers to integrate and utilize our services effectively. This task involves documenting all the available endpoints, including their request/response formats, authentication methods, and potential error codes. Clear examples should be provided for common use cases, such as creating, updating, or deleting records. Including diagrams and workflows for complex API interactions will enhance the overall usability of the documentation.",
     effort: 3,
     state: "new",
-    votes: 8,
-    dueDate: "2024-12-05",
+    votes: 2,
+    dueDate: "2024-11-05",
   },
   {
     id: "3",
@@ -60,7 +60,7 @@ const tasks = [
       "The backend codebase has grown significantly and now contains redundant, poorly structured logic that needs to be refactored. This task involves modularizing the code to improve maintainability and reduce technical debt. Key areas to focus on include replacing nested callback chains with promises or async/await and centralizing configuration values. Comprehensive testing will be necessary after refactoring to ensure no regressions or unexpected behavior occur.",
     effort: 7,
     state: "done",
-    votes: 5,
+    votes: 15,
     dueDate: "2024-11-29",
   },
   {
@@ -91,7 +91,7 @@ const tasks = [
     effort: 8,
     state: "done",
     votes: 3,
-    dueDate: "2024-11-30",
+    dueDate: "2024-12-01",
   },
 ];
 
