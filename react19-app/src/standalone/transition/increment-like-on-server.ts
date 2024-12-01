@@ -1,5 +1,3 @@
-import { longRunningOperation } from "./utils.ts";
-
 let likes = 0;
 
 export function getLikes() {
@@ -13,4 +11,10 @@ export async function incrementLikeOnServer() {
   }
   likes = await longRunningOperation(likes + 1, 2000);
   return likes;
+}
+
+export function longRunningOperation<T>(value: T, duration = 2000): Promise<T> {
+  return new Promise((res) => {
+    setTimeout(() => res(value), duration);
+  });
 }

@@ -1,13 +1,9 @@
-import z from "zod";
-
-const Ingredient = z.object({
-  name: z.string(),
-  amount: z.number(),
-  unit: z.string(),
-  orderNo: z.number(),
-});
-
-export type Ingredient = z.infer<typeof Ingredient>;
+export type Ingredient = {
+  name: string;
+  amount: number;
+  unit: string;
+  orderNo: number;
+};
 
 export const singleRecipe = {
   id: "40",

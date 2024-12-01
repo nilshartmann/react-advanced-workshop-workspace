@@ -1,16 +1,21 @@
-import { Ingredient } from "../../components/api-types.ts";
-import { twMerge } from "tailwind-merge";
 import { ReactNode, useState } from "react";
+import { twMerge } from "tailwind-merge";
+
+import { Ingredient } from "./ingredient-data.ts";
+import { logRender, useLogRenderDone } from "./log-render.ts";
 import logo from "./logo.png";
 
 type IngredientsProps = {
   ingredients: Ingredient[];
 };
 export default function IngredientsWidget({ ingredients }: IngredientsProps) {
+  logRender("IngredientsWidget");
   const [servings, setServings] = useState(4);
 
   const onDecreaseServings = () => setServings(servings - 1);
   const onIncreaseServings = () => setServings(servings + 1);
+
+  useLogRenderDone();
 
   return (
     <>
@@ -94,6 +99,7 @@ type HeaderProps = {
 };
 
 function Header({ children }: HeaderProps) {
+  logRender("Header");
   return (
     <span className={"flex items-center space-x-2 px-4"}>
       <RecipifyIcon />
@@ -106,6 +112,7 @@ type HeadingProps = {
   children: ReactNode;
 };
 function Heading({ children }: HeadingProps) {
+  logRender("Heading");
   return <h2 className={"px-4 font-space text-3xl font-bold"}>{children}</h2>;
 }
 
@@ -114,6 +121,7 @@ type AmountProps = {
   unit: string;
 };
 function Amount({ amount, unit }: AmountProps) {
+  logRender("Amount");
   return (
     <span className={"p-2"}>
       {amount} {unit}
@@ -125,14 +133,17 @@ type LabelProps = {
   children: ReactNode;
 };
 function Label({ children }: LabelProps) {
+  logRender("Label");
   return <span className={"p-2"}>{children}</span>;
 }
 
 function CheckIcon() {
+  logRender("CheckIcon");
   return <i className="fa-regular fa-circle-check p-2 text-orange_2"></i>;
 }
 
 function RecipifyIcon() {
+  logRender("RecipifyIcon");
   return <img src={logo} alt={"Recipify icon"} />;
 }
 
@@ -143,6 +154,7 @@ type IconButtonProps = {
 };
 
 function IconButton({ disabled, icon, onButtonClick }: IconButtonProps) {
+  logRender("IconButton");
   return (
     <button onClick={disabled ? undefined : onButtonClick}>
       <i

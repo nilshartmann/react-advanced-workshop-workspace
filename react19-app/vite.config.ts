@@ -1,4 +1,3 @@
-import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
@@ -13,7 +12,7 @@ const babelConfig = enableCompiler
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(babelConfig), TanStackRouterVite()],
+  plugins: [react(babelConfig)],
   server: {
     host: "0.0.0.0",
     port: 3000,

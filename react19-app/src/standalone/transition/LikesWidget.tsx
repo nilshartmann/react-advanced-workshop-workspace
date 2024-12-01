@@ -1,56 +1,34 @@
+import React, { ReactNode, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import React, {
-  ReactNode,
-  useActionState,
-  useOptimistic,
-  useState,
-  useTransition,
-} from "react";
-import { LikeIndicator } from "../../components/LoadingIndicator.tsx";
-import { longRunningOperation } from "./utils.ts";
-import { incrementLikeOnServer } from "./increment-like-on-server.ts";
-import { ErrorBoundary } from "react-error-boundary";
+
+import styles from "./LoadingIndicator.module.css";
 
 type LikesWidgetProps = {
   initialLikes: number;
 };
 
-// eb
-export default function LikesWidgetWrapper({ initialLikes }: LikesWidgetProps) {
-  return (
-    <ErrorBoundary fallback={"Could not like"}>
-      <LikesWidget initialLikes={initialLikes} />
-    </ErrorBoundary>
-  );
-}
+// todo:
+//  1. handle Like Click mit Transition
+//  2. ErrorBoundary
+//  3. optimistic likes
 
-export function LikesWidget({ initialLikes }: LikesWidgetProps) {
+export default function LikesWidget({ initialLikes }: LikesWidgetProps) {
   const [likes, setLikes] = useState(initialLikes);
-  const [isPending, startTransition] = useTransition();
-
-  const [optimisticLikes, setOptimisticLikes] = useOptimistic(likes);
-
-  // tr1
-  // ol
 
   const handleLikeClick = async () => {
-    startTransition(async () => {
-      setOptimisticLikes(likes + 1);
-      const newLikes = await incrementLikeOnServer();
-      setLikes(newLikes);
-    });
+    // todo
   };
 
   return (
-    <LikeButton disabled={isPending} onClick={handleLikeClick}>
-      <span>{optimisticLikes}</span>
-      {isPending ? <LikeIndicator /> : <HeartIcon />}
+    <LikeButton onClick={handleLikeClick}>
+      <span>{likes}</span>
+      <HeartIcon />
     </LikeButton>
   );
 }
 
 type LikeButtonProps = {
-  disabled: boolean;
+  disabled?: boolean;
   children: ReactNode;
   onClick(): void;
 };
@@ -73,6 +51,19 @@ function HeartIcon() {
   return (
     <span>
       <i className="fa-regular fa-heart mr-2"></i>
+    </span>
+  );
+}
+
+function LikeIndicator() {
+  const bounceClass = `${styles.bounce}`;
+  const placeholder = <i className="fa-regular fa-heart mr-2"></i>;
+
+  return (
+    <span className={`${styles.Spinner} ${styles.secondary}`}>
+      {/*<div className={`${bounceClass} ${styles.bounce1}`}>{placeholder}</div>*/}
+      <span className={`${bounceClass} ${styles.bounce2}`}>{placeholder}</span>
+      {/*<div className={`${bounceClass} ${styles.bounce3}`}>{placeholder}</div>*/}
     </span>
   );
 }

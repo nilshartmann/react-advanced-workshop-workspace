@@ -1,5 +1,5 @@
-import IngredientsWidget, { CurrencyProvider } from "./IngredientsWidget.tsx";
 import { singleRecipe } from "./ingredient-data.ts";
+import IngredientsWidget, { CurrencyProvider } from "./IngredientsWidget.tsx";
 
 export default function ContextApp() {
   return (

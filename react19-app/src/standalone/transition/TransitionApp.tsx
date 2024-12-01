@@ -1,5 +1,5 @@
-import LikesWidget from "./LikesWidget.tsx";
 import { getLikes } from "./increment-like-on-server.ts";
+import LikesWidget from "./LikesWidget.tsx";
 
 export default function TransitionApp() {
   return (

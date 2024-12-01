@@ -1,7 +1,8 @@
+import React, { ReactNode, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import React, { ReactNode, use, useContext, useState } from "react";
-import logo from "./logo.png";
+
 import { Ingredient } from "./ingredient-data.ts";
+import logo from "./logo.png";
 
 type Currency = {
   currency: string;
@@ -28,7 +29,7 @@ export function CurrencyProvider({ children }: CurrencyProviderProps) {
 
   // 👀 Kein Context.Provider hier!
   return (
-    <CurrencyContext value={currency}>
+    <CurrencyContext.Provider value={currency}>
       <div className={"flex space-x-4"}>
         <Button onClick={() => setCurrency(EUR)} selected={currency === EUR}>
           EUR
@@ -38,7 +39,7 @@ export function CurrencyProvider({ children }: CurrencyProviderProps) {
         </Button>
       </div>
       {children}
-    </CurrencyContext>
+    </CurrencyContext.Provider>
   );
 }
 
@@ -167,10 +168,8 @@ type PriceProps = {
 function Price({ id, price }: PriceProps) {
   console.log("RENDER Price for ", id);
 
-  const [showPrices, setShowPrices] = useState(true);
-
-  // todo: use(CurrencyContext)!
-  const currency = showPrices ? use(CurrencyContext) : null;
+  const showPrices = true;
+  const currency: Currency = { rate: 1, currency: "EUR" };
 
   return (
     <>
@@ -179,9 +178,9 @@ function Price({ id, price }: PriceProps) {
           {price * currency.rate} {currency.currency}
         </span>
       )}
-      <Button secondary onClick={() => setShowPrices(!showPrices)}>
-        {showPrices ? "Hide Price" : "Show Price"}
-      </Button>
+      {/*<Button secondary>*/}
+      {/*  {showPrices ? "Hide Price" : "Show Price"}*/}
+      {/*</Button>*/}
     </>
   );
 }
