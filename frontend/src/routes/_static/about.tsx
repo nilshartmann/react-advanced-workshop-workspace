@@ -3,6 +3,7 @@ import {
   useMatch,
   useRouteContext,
 } from "@tanstack/react-router";
+
 import { PageTitle } from "../../components/Heading.tsx";
 
 export const Route = createFileRoute("/_static/about")({

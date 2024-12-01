@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { H1, PageTitle } from "../../components/Heading.tsx";
+
+import { PageTitle } from "../../components/Heading.tsx";
 
 export const Route = createFileRoute("/_static/privacy")({
   component: PrivateRoute,

@@ -20,6 +20,7 @@ declare module "@tanstack/react-router" {
   }
 }
 
+// Create TS Query Client
 const queryClient = createQueryClient();
 
 export default function App() {

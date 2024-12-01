@@ -1,3 +1,8 @@
+uebungen/*.md
+.storybook/*.html
+
+
+
 pnpm-lock.yaml
 
 public/assets

@@ -1,5 +1,5 @@
-import { RefObject } from "react";
 import { createLink, LinkComponent } from "@tanstack/react-router";
+import { RefObject } from "react";
 
 type AppLinkProps = {
   ref: RefObject<any>;
