@@ -36,8 +36,8 @@ export type Task = z.infer<typeof TaskSchema>;
 
 export const InsightSchema = z.object({
   id: z.string(),
-  author: z.string(),
-  text: z.string(),
+  author: z.string().min(1),
+  text: z.string().min(1),
   confidence: z.number().min(0).max(5).optional(),
 });
 

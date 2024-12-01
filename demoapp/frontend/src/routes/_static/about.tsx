@@ -5,6 +5,7 @@ import {
 } from "@tanstack/react-router";
 
 import { PageTitle } from "../../components/Heading.tsx";
+import InsightForm from "../../components/InsightForm.tsx";
 
 export const Route = createFileRoute("/_static/about")({
   component: RouteComponent,
@@ -18,6 +19,8 @@ export const Route = createFileRoute("/_static/about")({
 });
 
 function RouteComponent() {
+
+
   const m = useMatch({ strict: false });
   console.log("ABOUT MATCH CTX", m.context, m.id);
   const ctx = useRouteContext({ strict: false });
@@ -26,6 +29,7 @@ function RouteComponent() {
   return (
     <article className={"space-y-6 font-inter text-gray-600 *:leading-7"}>
       <PageTitle>About TaskFlow</PageTitle>
+      <InsightForm />
       <p>
         Welcome to TaskFlow, the ultimate tool designed to streamline task
         management and enhance team collaboration. TaskFlow helps individuals
