@@ -235,6 +235,206 @@ let insights = [
   },
 ];
 
+const resources = [
+  {
+    taskId: "1",
+    resources: [
+      {
+        id: "201",
+        title: "CSS Debugging Guide",
+        description:
+          "Learn common debugging techniques for CSS rendering issues.",
+        url: "https://developer.mozilla.org/en-US/docs/Web/CSS/Debugging",
+      },
+      {
+        id: "202",
+        title: "Responsive Design Best Practices",
+        description:
+          "A comprehensive guide on building responsive web layouts.",
+        url: "https://www.w3schools.com/css/css_rwd_intro.asp",
+      },
+      {
+        id: "203",
+        title: "Common Browser Quirks",
+        description: "Explore common browser quirks and how to address them.",
+        url: "https://www.smashingmagazine.com/2021/03/guide-browser-quirks-fixes/",
+      },
+    ],
+  },
+  {
+    taskId: "2",
+    resources: [
+      {
+        id: "204",
+        title: "API Documentation Tips",
+        description: "Tips for writing clear and effective API documentation.",
+        url: "https://idratherbewriting.com/documenting-apis/",
+      },
+      {
+        id: "205",
+        title: "OpenAPI Specification",
+        description: "Learn how to create API specifications using OpenAPI.",
+        url: "https://swagger.io/specification/",
+      },
+      {
+        id: "206",
+        title: "REST API Best Practices",
+        description: "Best practices for designing and implementing REST APIs.",
+        url: "https://restfulapi.net/best-practices/",
+      },
+    ],
+  },
+  {
+    taskId: "3",
+    resources: [
+      {
+        id: "207",
+        title: "Async/Await in JavaScript",
+        description:
+          "Improve code readability by replacing nested promises with async/await.",
+        url: "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises",
+      },
+      {
+        id: "208",
+        title: "Modular JavaScript Design Patterns",
+        description:
+          "Explore patterns for creating maintainable and scalable codebases.",
+        url: "https://addyosmani.com/resources/essentialjsdesignpatterns/book/",
+      },
+      {
+        id: "209",
+        title: "Refactoring Techniques",
+        description: "Learn techniques to refactor and optimize your code.",
+        url: "https://refactoring.guru/refactoring/techniques",
+      },
+    ],
+  },
+  {
+    taskId: "4",
+    resources: [
+      {
+        id: "210",
+        title: "UI/UX Design Principles",
+        description:
+          "Core principles for creating user-friendly and intuitive designs.",
+        url: "https://www.nngroup.com/articles/usability-guidelines/",
+      },
+      {
+        id: "211",
+        title: "Accessibility in Web Design",
+        description:
+          "Techniques to make your web application accessible to all users.",
+        url: "https://webaim.org/",
+      },
+      {
+        id: "212",
+        title: "Web Typography Basics",
+        description: "A beginner's guide to web typography and text styling.",
+        url: "https://fonts.google.com/knowledge",
+      },
+    ],
+  },
+  {
+    taskId: "5",
+    resources: [
+      {
+        id: "213",
+        title: "SQL Indexing Basics",
+        description:
+          "Learn the basics of indexing and how it speeds up database queries.",
+        url: "https://use-the-index-luke.com/",
+      },
+      {
+        id: "214",
+        title: "Database Normalization",
+        description: "Understand database normalization and when to use it.",
+        url: "https://www.guru99.com/database-normalization.html",
+      },
+      {
+        id: "215",
+        title: "Query Optimization Techniques",
+        description:
+          "Techniques to optimize SQL queries for better performance.",
+        url: "https://towardsdatascience.com/sql-query-optimization-beginners-guide-13e33e798eeb",
+      },
+    ],
+  },
+  {
+    taskId: "6",
+    resources: [
+      {
+        id: "216",
+        title: "Testing Payment Systems",
+        description: "Best practices for testing payment gateways and systems.",
+        url: "https://testguild.com/payment-testing-best-practices/",
+      },
+      {
+        id: "217",
+        title: "Integrating PayPal",
+        description:
+          "Step-by-step guide for integrating PayPal into your application.",
+        url: "https://developer.paypal.com/docs/api/overview/",
+      },
+      {
+        id: "218",
+        title: "Retry Logic Patterns",
+        description:
+          "Explore patterns for implementing retry logic in applications.",
+        url: "https://docs.microsoft.com/en-us/azure/architecture/patterns/retry",
+      },
+    ],
+  },
+  {
+    taskId: "7",
+    resources: [
+      {
+        id: "219",
+        title: "Version Control Best Practices",
+        description: "Learn best practices for managing branches and commits.",
+        url: "https://www.atlassian.com/git/tutorials/comparing-workflows",
+      },
+      {
+        id: "220",
+        title: "Git Advanced Features",
+        description: "Discover advanced Git commands and workflows.",
+        url: "https://git-scm.com/book/en/v2",
+      },
+      {
+        id: "221",
+        title: "Continuous Integration Basics",
+        description:
+          "Introduction to CI/CD and its role in modern development.",
+        url: "https://circleci.com/continuous-integration/",
+      },
+    ],
+  },
+  {
+    taskId: "8",
+    resources: [
+      {
+        id: "222",
+        title: "Debugging Techniques",
+        description:
+          "Comprehensive debugging techniques for JavaScript applications.",
+        url: "https://www.smashingmagazine.com/2020/05/guide-debugging-javascript/",
+      },
+      {
+        id: "223",
+        title: "Error Handling in Node.js",
+        description:
+          "Best practices for handling errors in a Node.js application.",
+        url: "https://nodejs.org/en/docs/guides/error-handling-in-node/",
+      },
+      {
+        id: "224",
+        title: "Improving Error Messages",
+        description: "How to write clear and actionable error messages.",
+        url: "https://uxdesign.cc/writing-error-messages-that-dont-suck-10007e27fb72",
+      },
+    ],
+  },
+];
+
 const asInsightDto = (insight) => ({ ...insight, taskId: undefined });
 
 // Routes
@@ -303,6 +503,19 @@ app.patch("/api/tasks/:taskId/votes", (req, res) => {
 
   // Respond with the updated task
   res.json(task);
+});
+
+// Retrieve related resources for a specific task
+app.get("/api/tasks/:taskId/resources", (req, res) => {
+  const { taskId } = req.params;
+
+  const taskResources = resources.find((r) => r.taskId === taskId);
+
+  if (!taskResources) {
+    return res.status(404).json({ error: "Resources not found for this task" });
+  }
+
+  res.json(taskResources.resources);
 });
 
 // Get insights for a specific task
@@ -377,8 +590,12 @@ app.listen(port, () => {
     `* Vote a task        PATCH http://localhost:${port}/api/tasks/3/votes`,
   );
   console.log(
-    `* List Task Insights GET http://localhost:${port}/api/tasks/3/insights`,
+    `* Get Task Insights  GET http://localhost:${port}/api/tasks/3/insights`,
   );
+  console.log(
+    `* Get Task Resources GET http://localhost:${port}/api/tasks/3/resources`,
+  );
+
   console.log(``);
   console.log(
     `😴 To simulate slow responses, add '?slowdown=delay_in_ms' to your URL:`,

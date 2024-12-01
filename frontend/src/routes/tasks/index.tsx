@@ -28,16 +28,8 @@ function TaskListRouteComponent() {
         <PageTitle>Task Overview</PageTitle>
         <OrderByButtonBar />
       </header>
-      <button
-        onClick={() => {
-          console.log("Refetching...");
-          result.refetch();
-        }}
-      >
-        Refetch
-      </button>
       <div className={"space-y-8"}>
-        {result.isLoading && (
+        {result.isPending && (
           <>
             {Array(3)
               .fill("")

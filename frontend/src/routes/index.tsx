@@ -4,4 +4,6 @@ export const Route = createFileRoute("/")({
   beforeLoad() {
     return redirect({ to: "/tasks" });
   },
+
+  // component: () => <Navigate to={"/tasks"} />,
 });
