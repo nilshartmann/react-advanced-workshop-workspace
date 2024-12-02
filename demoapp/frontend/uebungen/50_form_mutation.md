@@ -4,6 +4,7 @@
   - Endpunkt: `POST api/tasks/$taskId/insights` 
   - Payload: `NewInsight`-Objekt (`text`, `author`, `confidence`)
 - **Erweitere das Formular**
+  - Du musst die `taskId` als Property übergeben 
   - Beim Submit soll die Mutation ausgeführt werden
   - **Optional**:
     - Kannst du den Submit-Button (oder gar das ganze Formular) disablen, während der Request läuft?
@@ -12,6 +13,7 @@
   - Wenn die Mutation **erfolgreich** war:
     - Setze das Formular zurück (alle Inhalte und Fehler löschen)
     - Zeige eine Bestätigungsmeldung unter dem Formular an ("Speichern hat geklappt")
+    - Das neue Insight soll natürlich auch sofort in der Liste der Insights auftauchen...
   - Wenn die Mutation **fehlerhaft** war:
     - Zeige die Fehlermeldung unterhalb des Formulars an
     - Du kannst einen Fehler im Backend provozieren, in dem du als `Author` den Namen des künftigen US-Präsidenten angibst 🙄

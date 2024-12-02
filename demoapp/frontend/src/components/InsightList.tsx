@@ -2,6 +2,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 
 import { H4 } from "./Heading.tsx";
 import InsightCard from "./InsightCard.tsx";
+import InsightForm from "./InsightForm.tsx";
 import { insightsQueryOptions } from "./insights-query.ts";
 
 type InsightListProps = {
@@ -23,6 +24,7 @@ export default function InsightList({ taskId }: InsightListProps) {
           <InsightCard key={i.id} insight={i} />
         ))}
       </div>
+      <InsightForm taskId={taskId} />
     </div>
   );
 }

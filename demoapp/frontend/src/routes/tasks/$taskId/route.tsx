@@ -27,7 +27,6 @@ function RouteComponent() {
     queryKey: ["tasks", taskId],
     async queryFn() {
       const response = await taskApiKy.get(`api/tasks/${taskId}`).json();
-      console.log("RESPONSE", response);
       return TaskSchema.parse(response);
     },
   });

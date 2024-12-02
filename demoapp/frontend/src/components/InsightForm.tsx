@@ -1,9 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import ky, { HTTPError } from "ky";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { HTTPError } from "ky";
 import { FieldErrors, useForm } from "react-hook-form";
 import z from "zod";
 
+import { taskApiKy } from "../task-api-ky.ts";
 import { InsightSchema } from "../types.ts";
 import Button from "./Button.tsx";
 import Form from "./Form.tsx";
@@ -20,10 +21,11 @@ type InsightFormProps = {
   taskId: string;
 };
 export default function InsightForm({ taskId }: InsightFormProps) {
+  const queryClient = useQueryClient();
   const addInsightMutation = useMutation({
     async mutationFn(newInsight: NewInsight) {
       try {
-        return await ky.post(`api/tasks/${taskId}/insights`, {
+        return await taskApiKy.post(`api/tasks/${taskId}/insights`, {
           json: newInsight,
         });
       } catch (error) {
@@ -35,6 +37,11 @@ export default function InsightForm({ taskId }: InsightFormProps) {
         }
         throw error;
       }
+    },
+    onSuccess() {
+      return queryClient.invalidateQueries({
+        queryKey: ["tasks", taskId, "insights"],
+      });
     },
     // Nach abgeschlossener Mutation:
     //   -> Erfolg: Meldung anzeigen + Form leeren
