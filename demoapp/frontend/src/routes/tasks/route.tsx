@@ -1,9 +1,16 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { zodValidator } from "@tanstack/zod-adapter";
+import z from "zod";
 
 import PinnedTaskList from "../../components/PinnedTaskList.tsx";
 
+const TasksRouteSearchParams = z.object({
+  pinnedTaskIds: z.string().array().optional(),
+});
+
 export const Route = createFileRoute("/tasks")({
   component: RouteComponent,
+  validateSearch: zodValidator(TasksRouteSearchParams),
 });
 
 function RouteComponent() {

@@ -24,3 +24,6 @@
 
 * Directory Routes: https://tanstack.com/router/latest/docs/framework/react/guide/file-based-routing#directory-routes
 * Flat Routes: https://tanstack.com/router/latest/docs/framework/react/guide/file-based-routing#flat-routes
+* Navigation: https://tanstack.com/router/latest/docs/framework/react/guide/navigation
+* Link Komponente: https://tanstack.com/router/latest/docs/framework/react/api/router/linkComponent#link-component
+* 
