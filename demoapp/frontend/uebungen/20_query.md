@@ -15,8 +15,6 @@
   - Exportiere den `ky`-Client aus der Datei
 - **Lesen der Daten vom Backend**
   - Der Endpunkt für die "REST API" im Backend ist `/api/tasks`
-    - In der `vite.config` ist ein Proxy-Konfiguriert, der alle Anfragen auf `/api` in unser Backend auf Port `3002` weiterleitet. 
-    - Deswegen brauchst du keine Hostangaben zu machen
   - Verwende `useQuery` zum lesen der Aten 
     - Führe einen GET-Query aus, der alle Tasks liest
       - Der Rückgabe-Typ ist eine Liste von `Task`-Objekten (s. `types.ts`)

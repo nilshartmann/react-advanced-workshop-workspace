@@ -25,6 +25,7 @@ type Story = StoryObj<typeof meta>;
 
 export const New: Story = {
   args: {
+    taskId: "T-1",
     votes: 123,
   },
 };

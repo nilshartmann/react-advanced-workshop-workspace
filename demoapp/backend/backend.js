@@ -501,8 +501,8 @@ app.patch("/api/tasks/:taskId/votes", (req, res) => {
   // Increment the votes
   task.votes += 1;
 
-  // Respond with the updated task
-  res.json(task);
+  // Respond with the updated votes
+  res.json({newVotes: task.votes});
 });
 
 // Retrieve related resources for a specific task

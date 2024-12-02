@@ -19,7 +19,6 @@ import { Route as DashboardIndexImport } from "./routes/dashboard/index";
 import { Route as StaticPrivacyImport } from "./routes/_static/privacy";
 import { Route as StaticAboutImport } from "./routes/_static/about";
 import { Route as TasksTaskIdRouteImport } from "./routes/tasks/$taskId/route";
-import { Route as TasksHelloIndexImport } from "./routes/tasks/hello/index";
 import { Route as TasksTaskIdIndexImport } from "./routes/tasks/$taskId/index";
 import { Route as TasksTaskIdResourcesImport } from "./routes/tasks/$taskId/resources";
 
@@ -69,12 +68,6 @@ const StaticAboutRoute = StaticAboutImport.update({
 const TasksTaskIdRouteRoute = TasksTaskIdRouteImport.update({
   id: "/$taskId",
   path: "/$taskId",
-  getParentRoute: () => TasksRouteRoute,
-} as any);
-
-const TasksHelloIndexRoute = TasksHelloIndexImport.update({
-  id: "/hello/",
-  path: "/hello/",
   getParentRoute: () => TasksRouteRoute,
 } as any);
 
@@ -164,13 +157,6 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof TasksTaskIdIndexImport;
       parentRoute: typeof TasksTaskIdRouteImport;
     };
-    "/tasks/hello/": {
-      id: "/tasks/hello/";
-      path: "/hello";
-      fullPath: "/tasks/hello";
-      preLoaderRoute: typeof TasksHelloIndexImport;
-      parentRoute: typeof TasksRouteImport;
-    };
   }
 }
 
@@ -206,13 +192,11 @@ const TasksTaskIdRouteRouteWithChildren =
 interface TasksRouteRouteChildren {
   TasksTaskIdRouteRoute: typeof TasksTaskIdRouteRouteWithChildren;
   TasksIndexRoute: typeof TasksIndexRoute;
-  TasksHelloIndexRoute: typeof TasksHelloIndexRoute;
 }
 
 const TasksRouteRouteChildren: TasksRouteRouteChildren = {
   TasksTaskIdRouteRoute: TasksTaskIdRouteRouteWithChildren,
   TasksIndexRoute: TasksIndexRoute,
-  TasksHelloIndexRoute: TasksHelloIndexRoute,
 };
 
 const TasksRouteRouteWithChildren = TasksRouteRoute._addFileChildren(
@@ -230,7 +214,6 @@ export interface FileRoutesByFullPath {
   "/tasks/": typeof TasksIndexRoute;
   "/tasks/$taskId/resources": typeof TasksTaskIdResourcesRoute;
   "/tasks/$taskId/": typeof TasksTaskIdIndexRoute;
-  "/tasks/hello": typeof TasksHelloIndexRoute;
 }
 
 export interface FileRoutesByTo {
@@ -242,7 +225,6 @@ export interface FileRoutesByTo {
   "/tasks": typeof TasksIndexRoute;
   "/tasks/$taskId/resources": typeof TasksTaskIdResourcesRoute;
   "/tasks/$taskId": typeof TasksTaskIdIndexRoute;
-  "/tasks/hello": typeof TasksHelloIndexRoute;
 }
 
 export interface FileRoutesById {
@@ -257,7 +239,6 @@ export interface FileRoutesById {
   "/tasks/": typeof TasksIndexRoute;
   "/tasks/$taskId/resources": typeof TasksTaskIdResourcesRoute;
   "/tasks/$taskId/": typeof TasksTaskIdIndexRoute;
-  "/tasks/hello/": typeof TasksHelloIndexRoute;
 }
 
 export interface FileRouteTypes {
@@ -272,8 +253,7 @@ export interface FileRouteTypes {
     | "/dashboard"
     | "/tasks/"
     | "/tasks/$taskId/resources"
-    | "/tasks/$taskId/"
-    | "/tasks/hello";
+    | "/tasks/$taskId/";
   fileRoutesByTo: FileRoutesByTo;
   to:
     | "/"
@@ -283,8 +263,7 @@ export interface FileRouteTypes {
     | "/dashboard"
     | "/tasks"
     | "/tasks/$taskId/resources"
-    | "/tasks/$taskId"
-    | "/tasks/hello";
+    | "/tasks/$taskId";
   id:
     | "__root__"
     | "/"
@@ -296,8 +275,7 @@ export interface FileRouteTypes {
     | "/dashboard/"
     | "/tasks/"
     | "/tasks/$taskId/resources"
-    | "/tasks/$taskId/"
-    | "/tasks/hello/";
+    | "/tasks/$taskId/";
   fileRoutesById: FileRoutesById;
 }
 
@@ -345,8 +323,7 @@ export const routeTree = rootRoute
       "filePath": "tasks/route.tsx",
       "children": [
         "/tasks/$taskId",
-        "/tasks/",
-        "/tasks/hello/"
+        "/tasks/"
       ]
     },
     "/tasks/$taskId": {
@@ -379,10 +356,6 @@ export const routeTree = rootRoute
     "/tasks/$taskId/": {
       "filePath": "tasks/$taskId/index.tsx",
       "parent": "/tasks/$taskId"
-    },
-    "/tasks/hello/": {
-      "filePath": "tasks/hello/index.tsx",
-      "parent": "/tasks"
     }
   }
 }

@@ -28,7 +28,7 @@ export function TaskSummaryCard({ task }: TaskSummaryCardProps) {
         </Link>
         <div className={"flex items-center space-x-4"}>
           <TaskStateBadge state={task.state} />
-          <TaskVotesBadge votes={task.votes} />
+          <TaskVotesBadge votes={task.votes} taskId={task.id} />
           <ArrowButton
             dir={isOpen ? "down" : "up"}
             onClick={() => setIsOpen(!isOpen)}

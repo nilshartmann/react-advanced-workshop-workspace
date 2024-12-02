@@ -20,10 +20,7 @@ export default function TaskDetails({ task }: TaskDetailsProps) {
 
         <div className={"flex justify-between space-x-4"}>
           <TaskStateBadge state={task.state} />
-          <TaskVotesBadge
-            votes={task.votes}
-            onClick={() => console.log("jo")}
-          />
+          <TaskVotesBadge votes={task.votes} taskId={task.id} />
           <div
             className={
               "flex items-center space-x-2 rounded-md border-2 border-blue-200 bg-blue-100 p-2 text-blue-600"

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import z from "zod";
 
@@ -61,7 +61,6 @@ function TaskListRouteComponent() {
         <PageTitle>Task Overview</PageTitle>
         <OrderByButtonBar />
       </header>
-      <Link to={"/tasks/hello"}>Hello</Link>
       <div className={"space-y-8"}>
         {/* INITIALER REQUEST */}
         {result.isPending && (
