@@ -13,8 +13,8 @@ type TaskDetailsProps = {
 
 export default function TaskDetails({ task }: TaskDetailsProps) {
   return (
-    <div className={"flex gap-x-6"}>
-      <section className={"w-2/3 flex-col space-y-4"}>
+    <div>
+      <section className={"flex-col space-y-4"}>
         <H4>Description</H4>
         <p className={"leading-8"}>{task.description}</p>
 
@@ -35,7 +35,7 @@ export default function TaskDetails({ task }: TaskDetailsProps) {
           <DueDateBadge dueDate={task.dueDate} />
         </div>
       </section>
-      <section className={"w-1/3"}>
+      <section>
         <Suspense fallback={<h4>Insights loading...</h4>}>
           <InsightList taskId={task.id} />
         </Suspense>

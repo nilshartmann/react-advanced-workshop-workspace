@@ -8,7 +8,7 @@ export const insightsQueryOptions = (taskId: string) => {
     queryKey: ["tasks", taskId, "insights"],
     async queryFn() {
       const response = await taskApiKy
-        .get(`api/tasks/${taskId}/insights?slowdown=3000`)
+        .get(`api/tasks/${taskId}/insights`)
         .json();
       return InsightSchema.array().parse(response);
     },

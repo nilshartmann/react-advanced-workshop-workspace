@@ -5,11 +5,14 @@ import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { createQueryClient } from "./create-query-client.tsx";
 import { routeTree } from "./routeTree.gen.ts";
 
+// Create TS Query Client
+const queryClient = createQueryClient();
+
 // Set up a Router instance
 const router = createRouter({
   routeTree,
   context: {
-    showDashboard: false,
+    queryClient: queryClient,
   },
 });
 
@@ -19,9 +22,6 @@ declare module "@tanstack/react-router" {
     router: typeof router;
   }
 }
-
-// Create TS Query Client
-const queryClient = createQueryClient();
 
 export default function App() {
   return (

@@ -15,12 +15,14 @@ export default function InsightList({ taskId }: InsightListProps) {
   const insights = result.data;
 
   return (
-    <div className={"border-1 w-full space-y-8 rounded-2xl bg-goldgray p-4"}>
+    <div className={"border-1 mt-8 space-y-8 rounded-2xl bg-goldgray p-4"}>
       <H4>Insights</H4>
       <p>todo: insights hier anzeigen!</p>
-      {insights.map((i) => (
-        <InsightCard key={i.id} insight={i} />
-      ))}
+      <div className={"grid grid-cols-2 gap-x-4"}>
+        {insights.map((i) => (
+          <InsightCard key={i.id} insight={i} />
+        ))}
+      </div>
     </div>
   );
 }

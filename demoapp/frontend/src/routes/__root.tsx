@@ -1,3 +1,4 @@
+import { QueryClient } from "@tanstack/react-query";
 import {
   createRootRouteWithContext,
   Outlet,
@@ -8,7 +9,7 @@ import GlobalNavBar from "../components/GlobalNavBar.tsx";
 import MainLayout from "../components/MainLayout.tsx";
 
 type AppRouterContext = {
-  showDashboard: boolean;
+  queryClient: QueryClient;
 };
 
 export const Route = createRootRouteWithContext<AppRouterContext>()({
