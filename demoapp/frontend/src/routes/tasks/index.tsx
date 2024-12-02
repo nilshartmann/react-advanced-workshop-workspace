@@ -29,7 +29,7 @@ function TaskListRouteComponent() {
   });
 
   const result = useQuery({
-    queryKey: ["tasks", orderBy],
+    queryKey: ["tasklist", orderBy],
     async queryFn() {
       const tasks = await taskApiKy
         .get(`api/tasks?orderBy=${orderBy}&slowdown=1200`)
