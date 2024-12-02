@@ -1,22 +1,21 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { TaskSummaryCard } from "../TaskSummaryCard.tsx";
+import PinnedTaskCard from "../PinnedTaskCard.tsx";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "Tasks/TaskSummaryCard",
-  component: TaskSummaryCard,
+  title: "Tasks/PinnedTaskCard",
+  component: PinnedTaskCard,
   tags: ["autodocs", "!dev"],
   parameters: {
     docs: {
       description: {
-        component: `Zeigt die *Zusammenfassung* eines \`Tasks\` an.
-        
+        component: `Zeigt einen \`Tasks\` in der Kompaktdarstellung für die List mit "gepinnten" Tasks an.
         `,
       },
     },
   },
-} satisfies Meta<typeof TaskSummaryCard>;
+} satisfies Meta<typeof PinnedTaskCard>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
