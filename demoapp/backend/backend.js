@@ -530,7 +530,7 @@ app.get("/api/tasks/:taskId/insights", (req, res) => {
 // Create a new insight
 app.post("/api/tasks/:taskId/insights", (req, res) => {
   const { taskId } = req.params;
-  const { author, text, rating } = req.body;
+  const { author, text, confidence } = req.body;
 
   // Validate input
   if (!author) {
@@ -540,29 +540,37 @@ app.post("/api/tasks/:taskId/insights", (req, res) => {
       .json({ error: `Invalid insight author '${author}'` });
   }
 
+
+  if ("trump".localeCompare(author, undefined, { sensitivity: 'accent' }) === 0) {
+    console.log("Invalid insight data", req.body);
+    return res
+      .status(400)
+      .json({ error: `Du schreibst hier nix 👮‍♀️` });
+  }
+
   if (!text) {
     console.log("Invalid insight data", req.body);
     return res.status(400).json({ error: `Invalid insight text '${text}'` });
   }
 
-  if (typeof rating !== "number") {
+  if (typeof confidence !== "number") {
     console.log("Invalid insight data", req.body);
     return res
       .status(400)
-      .json({ error: `Invalid insight rating (not a number) '${rating}'` });
+      .json({ error: `Invalid insight confidence (not a number) '${confidence}'` });
   }
 
   // Create new insight
-  const newComment = {
+  const newInsight = {
     id: (insights.length + 1).toString(), // Simple incremental ID
     taskId,
     author,
     text,
-    rating,
+    confidence,
   };
 
-  insights.push(newComment);
-  res.status(201).json(asInsightDto(newComment)); // Return the created insight
+  insights.push(newInsight);
+  res.status(201).json(asInsightDto(newInsight)); // Return the created insight
 });
 
 // Start Server

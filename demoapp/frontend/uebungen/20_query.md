@@ -6,6 +6,13 @@
   - Lege eine neue Route `/tasks` an
     - Empfehlung: als Directory-Route, nicht als Flat-Route
   - Wenn die Route `/` aufgerufen wird, soll auf `/tasks` weitergeleitet werden
+- **Erzeugen eines `ky` Clients für die Task API**
+  - Lege die Datei `task-api-ky.ts` an
+  - Darin musst du einen neuen `ky`-Client erzeugen, die bereits die "Basis URL" für alle Calls zum Backend enthält
+    - Das ist in unserem Fall: `http://localhost:3002`
+    - `ky` macht der Default mehrere Versuche, wenn ein Request nicht klappt. 
+    - Das macht TanStack Query aber (normalerweise) auch, deswegen solltest du das `retry` in deinem ky-Client auf `0` stellen
+  - Exportiere den `ky`-Client aus der Datei
 - **Lesen der Daten vom Backend**
   - Der Endpunkt für die "REST API" im Backend ist `/api/tasks`
     - In der `vite.config` ist ein Proxy-Konfiguriert, der alle Anfragen auf `/api` in unser Backend auf Port `3002` weiterleitet. 
@@ -34,6 +41,12 @@
 **Router**
 - `redirect`: https://tanstack.com/router/latest/docs/framework/react/api/router/redirectFunction
   - Alternativ `Navigate`:https://tanstack.com/router/latest/docs/framework/react/api/router/navigateComponent#navigate-component
+
+**ky**
+- https://github.com/sindresorhus/ky
+- `ky.create` https://github.com/sindresorhus/ky?tab=readme-ov-file#kycreatedefaultoptions
+- `prefixUrl` https://github.com/sindresorhus/ky?tab=readme-ov-file#prefixurl
+- `retry`: https://github.com/sindresorhus/ky?tab=readme-ov-file#retry
 
 **TanStack Query**:
   - Query Keys: https://tanstack.com/query/latest/docs/framework/react/guides/query-keys

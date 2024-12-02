@@ -52,8 +52,16 @@ export default defineConfig({
   },
   test: {
     environment: "jsdom",
-
+    // env: {
+    //   TASK_API_PREFIX: "http://task-example-host.de",
+    // },
     setupFiles: ["./vitest-setup.ts"],
     restoreMocks: true,
+    onConsoleLog(log: string, type: "stdout" | "stderr"): false | void {
+      console.log("log in test: ", log);
+      if (log === "message from third party library" && type === "stdout") {
+        return false;
+      }
+    },
   },
 });

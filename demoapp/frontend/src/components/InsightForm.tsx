@@ -1,54 +1,117 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { InputHTMLAttributes } from "react";
-import { useForm } from "react-hook-form";
-import { twMerge } from "tailwind-merge";
+import { useMutation } from "@tanstack/react-query";
+import ky, { HTTPError } from "ky";
+import { FieldErrors, useForm } from "react-hook-form";
 import z from "zod";
 
 import { InsightSchema } from "../types.ts";
 import Button from "./Button.tsx";
+import Form from "./Form.tsx";
+import FormControl from "./FormControl.tsx";
+import FormFieldError from "./FormFieldError.tsx";
+import FormLabel from "./FormLabel.tsx";
+import TextInput from "./TextInput.tsx";
 
 const NewInsightSchema = InsightSchema.omit({ id: true });
 
 type NewInsight = z.infer<typeof NewInsightSchema>;
 
-export default function InsightForm() {
-  const form = useForm<NewInsight>({
-    resolver: zodResolver(NewInsightSchema),
+type InsightFormProps = {
+  taskId: string;
+};
+export default function InsightForm({ taskId }: InsightFormProps) {
+  const addInsightMutation = useMutation({
+    async mutationFn(newInsight: NewInsight) {
+      try {
+        return await ky.post(`api/tasks/${taskId}/insights`, {
+          json: newInsight,
+        });
+      } catch (error) {
+        if (error instanceof HTTPError && error.response.status === 400) {
+          const errorResponse = (await error.response.json()) as any;
+          if (errorResponse.error) {
+            throw new Error(errorResponse.error);
+          }
+        }
+        throw error;
+      }
+    },
+    // Nach abgeschlossener Mutation:
+    //   -> Erfolg: Meldung anzeigen + Form leeren
+    //   -> Fehler: Fehlermeldung anzeigen
+    // Beide Anzeigen sollen nach der ersten Änderung wieder
+    //  verschwinden
+    //  -> Wir können das hier machen
+    //     oder mit mutateAsync
+    //  -> wann machen wir was?
+
+    // onSettled(data, error) {
+    //   if (data) {
+    //     // Erfolgsfall
+    //     form.reset();
+    //   }
+    //   const subscription = form.watch(() => {
+    //     // In beiden Fällen nach erster Änderung Form zurücksetzen
+    //     addInsightMutation.reset();
+    //     subscription.unsubscribe();
+    //   });
+    // },
   });
 
-  function onSubmit(data: NewInsight) {
-    console.log("Jawohl", data);
+  const form = useForm<NewInsight>({
+    resolver: zodResolver(NewInsightSchema),
+    mode: "onBlur",
+  });
+
+  const errorCount = Object.keys(form.formState.errors).length;
+
+  async function onSubmit(data: NewInsight) {
+    try {
+      await addInsightMutation.mutateAsync(data);
+      form.reset();
+    } finally {
+      const subscription = form.watch(() => {
+        // In beiden Fällen nach erster Änderung Form zurücksetzen
+        addInsightMutation.reset();
+        subscription.unsubscribe();
+      });
+    }
   }
 
-  console.log("err", form.formState.errors);
+  function onInvalidSubmit(err: FieldErrors) {
+    console.log("err submit", err);
+  }
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className={""}>
-      <div className={"grid-col grid space-y-4"}>
-        <TextInput type={"author"} {...form.register("author")} />
+    <Form onSubmit={form.handleSubmit(onSubmit, onInvalidSubmit)}>
+      <div>ErrorCount {errorCount}</div>
+      <FormControl>
+        <FormLabel htmlFor={"author"}>Author</FormLabel>
+        <TextInput id="author" type={"author"} {...form.register("author")} />
+        <FormFieldError>{form.formState.errors.author?.message}</FormFieldError>
+      </FormControl>
+
+      <FormControl>
+        <FormLabel>Text</FormLabel>
         <TextInput type={"text"} {...form.register("text")} />
+        <FormFieldError>{form.formState.errors.text?.message} </FormFieldError>
+      </FormControl>
+      <FormControl>
+        <FormLabel>Confidence</FormLabel>
         <TextInput
           type={"number"}
           {...form.register("confidence", { valueAsNumber: true })}
         />
-        {form.formState.errors.confidence && (
-          <div>{form.formState.errors.confidence.message}</div>
-        )}
+        <FormFieldError>
+          {form.formState.errors.confidence?.message}
+        </FormFieldError>
+      </FormControl>
 
-        <Button type={"submit"}>Save</Button>
-      </div>
-    </form>
-  );
-}
-
-function TextInput({
-  className,
-  ...rest
-}: InputHTMLAttributes<HTMLInputElement>) {
-  return (
-    <input
-      className={twMerge("rounded border border-gray-300 p-2")}
-      {...rest}
-    />
+      <Button type={"submit"}>Save</Button>
+      {addInsightMutation.isError && (
+        <FormFieldError>{String(addInsightMutation.error)}</FormFieldError>
+      )}
+      {addInsightMutation.isSuccess && <p>Alles roger!</p>}
+    </Form>
   );
 }

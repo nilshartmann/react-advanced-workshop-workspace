@@ -19,8 +19,6 @@ export const Route = createFileRoute("/_static/about")({
 });
 
 function RouteComponent() {
-
-
   const m = useMatch({ strict: false });
   console.log("ABOUT MATCH CTX", m.context, m.id);
   const ctx = useRouteContext({ strict: false });
@@ -29,7 +27,7 @@ function RouteComponent() {
   return (
     <article className={"space-y-6 font-inter text-gray-600 *:leading-7"}>
       <PageTitle>About TaskFlow</PageTitle>
-      <InsightForm />
+      <InsightForm taskId={"2"} />
       <p>
         Welcome to TaskFlow, the ultimate tool designed to streamline task
         management and enhance team collaboration. TaskFlow helps individuals

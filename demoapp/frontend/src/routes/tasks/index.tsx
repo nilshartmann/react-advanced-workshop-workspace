@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
-import ky from "ky";
 import z from "zod";
 
 import { PageTitle } from "../../components/Heading.tsx";
 import OrderByButtonBar from "../../components/OrderByButtonBar.tsx";
 import PlaceholderCard from "../../components/PlaceholderCard.tsx";
 import { TaskSummaryCard } from "../../components/TaskSummaryCard.tsx";
+import { taskApiKy } from "../../task-api-ky.ts";
 import { TaskSchema } from "../../types.ts";
 
 const TaskListSearchParams = z.object({
@@ -31,18 +31,22 @@ function TaskListRouteComponent() {
   const result = useQuery({
     queryKey: ["tasks", orderBy],
     async queryFn() {
-      const tasks = await ky
-        .get(`api/tasks?orderBy=${orderBy}&slowdown=200`)
+      const tasks = await taskApiKy
+        .get(`api/tasks?orderBy=${orderBy}&slowdown=1200`)
         .json();
 
       return TaskSchema.array().parse(tasks);
     },
-    placeholderData(previousData) {
-      return previousData || [];
+    placeholderData(previousData, previousQuery) {
+      console.log("prev data", previousData, previousQuery);
+      return previousData || undefined;
     },
   });
 
   const x = {
+    isPending: result.isPending,
+    // Is true whenever the first fetch for a query is in-flight
+    // Is the same as isFetching && isPending
     isLoading: result.isLoading,
     isFetching: result.isFetching,
     isPlaceholderData: result.isPlaceholderData,
@@ -57,6 +61,7 @@ function TaskListRouteComponent() {
         <PageTitle>Task Overview</PageTitle>
         <OrderByButtonBar />
       </header>
+      <Link to={"/tasks/hello"}>Hello</Link>
       <div className={"space-y-8"}>
         {/* INITIALER REQUEST */}
         {result.isPending && (
