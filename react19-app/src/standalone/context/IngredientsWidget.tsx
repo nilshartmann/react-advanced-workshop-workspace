@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, use, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { Ingredient } from "./ingredient-data.ts";
@@ -20,6 +20,9 @@ const USD = {
 };
 
 const CurrencyContext = React.createContext<Currency>(EUR);
+//      ^--- Zwei Komponenten: Consumer und Provider
+//                               ^--- brauchen wir nicht
+//                                             ^-- ab React 19 nicht mehr
 
 type CurrencyProviderProps = {
   children: ReactNode;
@@ -29,7 +32,7 @@ export function CurrencyProvider({ children }: CurrencyProviderProps) {
 
   // 👀 Kein Context.Provider hier!
   return (
-    <CurrencyContext.Provider value={currency}>
+    <CurrencyContext value={currency}>
       <div className={"flex space-x-4"}>
         <Button onClick={() => setCurrency(EUR)} selected={currency === EUR}>
           EUR
@@ -39,7 +42,7 @@ export function CurrencyProvider({ children }: CurrencyProviderProps) {
         </Button>
       </div>
       {children}
-    </CurrencyContext.Provider>
+    </CurrencyContext>
   );
 }
 
@@ -168,8 +171,23 @@ type PriceProps = {
 function Price({ id, price }: PriceProps) {
   console.log("RENDER Price for ", id);
 
-  const showPrices = true;
-  const currency: Currency = { rate: 1, currency: "EUR" };
+  const [showPrices, setShowPrices] = useState(true);
+
+  // const currency = useContext(CurrencyContext);
+
+  const currency = showPrices ? use(CurrencyContext) : null;
+
+  // const navigate = useNavigate();
+
+  // const handleLogoutClick = () => {
+  //   // Alt:
+  //   navigate.open("/logout");
+  //
+  //   // Neu:
+  //   getNavigate().open("/logout");
+  // };
+
+  // const currency: Currency = { rate: 1, currency: "EUR" };
 
   return (
     <>
@@ -178,9 +196,9 @@ function Price({ id, price }: PriceProps) {
           {price * currency.rate} {currency.currency}
         </span>
       )}
-      {/*<Button secondary>*/}
-      {/*  {showPrices ? "Hide Price" : "Show Price"}*/}
-      {/*</Button>*/}
+      <Button secondary onClick={() => setShowPrices(!showPrices)}>
+        {showPrices ? "Hide Price" : "Show Price"}
+      </Button>
     </>
   );
 }
