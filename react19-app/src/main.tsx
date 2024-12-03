@@ -5,6 +5,6 @@ import "./index.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-import TransitionApp from "./standalone/transition/TransitionApp.tsx";
+import CompilerApp from "./standalone/compiler/CompilerApp.tsx";
 
-ReactDOM.createRoot(document.getElementById("root")!).render(<TransitionApp />);
+ReactDOM.createRoot(document.getElementById("root")!).render(<CompilerApp />);

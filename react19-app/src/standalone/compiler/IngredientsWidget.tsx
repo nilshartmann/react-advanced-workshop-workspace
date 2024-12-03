@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { memo, ReactNode, useCallback, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { Ingredient } from "./ingredient-data.ts";
@@ -7,20 +7,46 @@ import logo from "./logo.png";
 
 type IngredientsProps = {
   ingredients: Ingredient[];
+  info: Info;
 };
-export default function IngredientsWidget({ ingredients }: IngredientsProps) {
+export default function IngredientsWidget({
+  ingredients,
+  info,
+}: IngredientsProps) {
   logRender("IngredientsWidget");
   const [servings, setServings] = useState(4);
 
-  const onDecreaseServings = () => setServings(servings - 1);
-  const onIncreaseServings = () => setServings(servings + 1);
+  function handlePlusClick() {
+    setServings(servings + 1);
+    // setServings(servings - 1);
+  }
+
+  const onDecreaseServings = useCallback(
+    () => setServings(
+      currentServings => currentServings - 1),
+    [],
+  );
+  const onIncreaseServings = useCallback(
+    () => setServings(servings + 1),
+    [servings],
+  );
+
+  const getLabel = useCallback(() => {
+    return "Hello World";
+  }, []);
+
+  // const info2 = useMemo( () => {
+  //   return info
+  // }, [])
 
   useLogRenderDone();
 
   return (
     <>
       <div className={"flex items-center justify-between"}>
-        <Header>Ingredients</Header>
+        <Header getLabel={getLabel} info={info}>
+          Ingredients
+        </Header>
         <ServingsChooser
           servings={servings}
           onMinusClick={onDecreaseServings}
@@ -62,7 +88,7 @@ function ServingsChooser({
       >
         <IconButton
           icon={"minus"}
-          disabled={servings < 2}
+          // disabled={servings < 2}
           onButtonClick={onMinusClick}
         />
         <span className={"text-gray-500"}> {servings} servings </span>
@@ -94,23 +120,30 @@ function IngredientItem({ ingredient, servings }: IngredientItemProps) {
   );
 }
 
+type Info = { msg: string };
+
 type HeaderProps = {
   children: ReactNode;
+  getLabel(): string;
+  info: Info;
 };
 
-function Header({ children }: HeaderProps) {
+const Header = memo(function Header({ children, getLabel, info }: HeaderProps) {
   logRender("Header");
   return (
     <span className={"flex items-center space-x-2 px-4"}>
       <RecipifyIcon />
+      <p>{getLabel()}</p>
+      <p>Info: {info.msg}</p>
       <Heading>{children}</Heading>
     </span>
   );
-}
+});
 
 type HeadingProps = {
   children: ReactNode;
 };
+
 function Heading({ children }: HeadingProps) {
   logRender("Heading");
   return <h2 className={"px-4 font-space text-3xl font-bold"}>{children}</h2>;
@@ -120,6 +153,7 @@ type AmountProps = {
   amount: number;
   unit: string;
 };
+
 function Amount({ amount, unit }: AmountProps) {
   logRender("Amount");
   return (
@@ -132,6 +166,7 @@ function Amount({ amount, unit }: AmountProps) {
 type LabelProps = {
   children: ReactNode;
 };
+
 function Label({ children }: LabelProps) {
   logRender("Label");
   return <span className={"p-2"}>{children}</span>;
@@ -153,7 +188,11 @@ type IconButtonProps = {
   disabled?: boolean;
 };
 
-function IconButton({ disabled, icon, onButtonClick }: IconButtonProps) {
+const IconButton = memo(function IconButton({
+  disabled,
+  icon,
+  onButtonClick,
+}: IconButtonProps) {
   logRender("IconButton");
   return (
     <button onClick={disabled ? undefined : onButtonClick}>
@@ -166,4 +205,4 @@ function IconButton({ disabled, icon, onButtonClick }: IconButtonProps) {
       />
     </button>
   );
-}
+});
