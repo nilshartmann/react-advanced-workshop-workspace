@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import ArticleLayout from "../../components/ArticleLayout.tsx";
 import { PageTitle } from "../../components/Heading.tsx";
 
 export const Route = createFileRoute("/_static/privacy")({
@@ -8,7 +9,7 @@ export const Route = createFileRoute("/_static/privacy")({
 
 function PrivateRoute() {
   return (
-    <article className={"space-y-6 font-inter text-gray-600 *:leading-7"}>
+    <ArticleLayout>
       <PageTitle>Privacy Policy</PageTitle>
       <p>
         Your privacy is important to us. It is our policy to respect your
@@ -37,6 +38,6 @@ function PrivateRoute() {
         If you have any questions about how we handle user data and personal
         information, feel free to contact us.
       </p>
-    </article>
+    </ArticleLayout>
   );
 }
