@@ -1,8 +1,12 @@
 # Vorbereitung: Installation und Starten
 
-* Es gibt zwei Verzeichnisse, die für uns relevant sind:
+* 👉 Ab jetzt arbeiten wir im Verzeichnis `demoapp`
+  * Bitte dieses Verzeichnis in der IDE/Editor öffnen
+
+* Darin gibt es zwei Unterverzeichnisse, die für uns relevant sind:
   * `backend`: Ein einfaches Node.js-Backend, das eine API zur Verfügung stellt
   * `frontend`: Unser React-Frontend, dem leider noch (fast) sämtliche Funktionalität fehlt...
+
 
 ## Installation
 
@@ -11,7 +15,7 @@
 > Ich verwende gerne den [pnpm Package Manager](https://pnpm.io/installation).
 > 
 > Wenn du den während des Workshops (oder generell) verwenden möchtest, kannst du den aktivieren,
-> in dem Du `corepack` verwendest (`corepack` ist Bestandteil von Nde.js). Dazu auf der Kommandozeile ausführen:
+> in dem Du `corepack` verwendest (`corepack` ist Bestandteil von Node.js). Dazu auf der Kommandozeile ausführen:
 > ```bash
 > corepack enable pnpm
 > ```
