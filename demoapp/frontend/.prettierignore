@@ -1,6 +1,6 @@
 uebungen/*.md
 .storybook/*.html
-
+playwright.config.ts
 
 
 pnpm-lock.yaml

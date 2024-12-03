@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "backend": "node ../../backend/backend.js",
+    "backend": "node ../backend/backend.js",
     "dev": "vite",
     "dev:debug": "vite --debug",
     "build": "tsc && vite build",

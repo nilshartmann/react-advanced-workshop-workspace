@@ -1,63 +1,28 @@
-import z from "zod";
+export type TaskState = "new" | "in_progress" | "done";
 
-// export type TaskState = "new" | "in_progress" | "done";
+export type Task = {
+  id: string;
+  title: string;
+  description: string;
+  effort: number;
+  state: TaskState;
+  votes: number;
+  dueDate: string;
+};
 
-// export type Task = {
-//   id: string;
-//   title: string;
-//   description: string;
-//   effort: number;
-//   state: TaskState;
-//   votes: number;
-//   dueDate: string;
-// };
+export type Insight = {
+  id: string;
+  author: string;
+  text: string;
+  confidence?: number;
+};
 
-const TaskStateSchema = z.enum(["new", "in_progress", "done"]);
-export type TaskState = z.infer<typeof TaskStateSchema>;
-
-export const TaskSchema = z.object({
-  id: z.string(),
-  title: z.string(),
-  description: z.string(),
-  effort: z.number().min(0).max(10),
-  state: TaskStateSchema,
-  votes: z.number().min(0),
-  dueDate: z.string().date(),
-});
-
-export type Task = z.infer<typeof TaskSchema>;
-
-// export type Insight = {
-//   id: string;
-//   author: string;
-//   text: string;
-//   confidence?: number;
-// };
-
-export const InsightSchema = z.object({
-  id: z.string(),
-  author: z.string().min(1),
-  text: z.string().min(1),
-  confidence: z.number().min(0).max(5).optional(),
-});
-
-export type Insight = z.infer<typeof InsightSchema>;
-
-// type Resource = {
-//   id: string;
-//   title: string;
-//   description?: string | null;
-//   url: string;
-// };
-
-export const ResourceSchema = z.object({
-  id: z.string(),
-  title: z.string(),
-  description: z.string().optional(),
-  url: z.string(),
-});
-
-export type Resource = z.infer<typeof ResourceSchema>;
+type Resource = {
+  id: string;
+  title: string;
+  description?: string | null;
+  url: string;
+};
 
 // -------- DIESE FUNKTIONEN SIND NUR ZUM TESTEN DER ZOD-TYPEN
 // -- wenn hier alles kompiliert, sind die Typen korrekt

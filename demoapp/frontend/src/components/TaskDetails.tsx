@@ -1,5 +1,3 @@
-import { Suspense } from "react";
-
 import { Task } from "../types.ts";
 import DueDateBadge from "./DueDateBadge.tsx";
 import { H4 } from "./Heading.tsx";
@@ -33,9 +31,7 @@ export default function TaskDetails({ task }: TaskDetailsProps) {
         </div>
       </section>
       <section>
-        <Suspense fallback={<h4>Insights loading...</h4>}>
-          <InsightList taskId={task.id} />
-        </Suspense>
+        <InsightList taskId={task.id} />
       </section>
     </div>
   );

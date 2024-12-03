@@ -1,31 +1,12 @@
-import { QueryClient } from "@tanstack/react-query";
-import {
-  createRootRouteWithContext,
-  Outlet,
-  retainSearchParams,
-} from "@tanstack/react-router";
+import { createRootRoute } from "@tanstack/react-router";
+import * as React from "react";
 
-import GlobalNavBar from "../components/GlobalNavBar.tsx";
-import MainLayout from "../components/MainLayout.tsx";
-
-type AppRouterContext = {
-  queryClient: QueryClient;
-};
-
-export const Route = createRootRouteWithContext<AppRouterContext>()({
-  component: RootRoute,
-  search: {
-    middlewares: [retainSearchParams(true)],
-  },
+export const Route = createRootRoute({
+  component: RootComponent,
 });
 
-export default function RootRoute() {
+function RootComponent() {
   return (
-    <div className={"flex min-h-svh flex-col font-inter"}>
-      <GlobalNavBar />
-      <MainLayout>
-        <Outlet />
-      </MainLayout>
-    </div>
+    <div className={"flex min-h-svh flex-col font-inter"}>Hello "__root"!</div>
   );
 }

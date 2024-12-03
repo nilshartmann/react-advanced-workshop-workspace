@@ -19,11 +19,13 @@ module.exports = {
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/ban-types": "off",
-    "unused-imports/no-unused-imports": "error",
-    "simple-import-sort/imports": "error",
-    "import/first": "error",
-    "import/newline-after-import": "error",
-    "import/no-duplicates": "error",
     "prefer-const": "off",
+
+    // im "echten" Leben waeren die evtl. "error" oder "warning":
+    "unused-imports/no-unused-imports": "off",
+    "simple-import-sort/imports": "off",
+    "import/first": "off",
+    "import/newline-after-import": "off",
+    "import/no-duplicates": "off",
   },
 };
