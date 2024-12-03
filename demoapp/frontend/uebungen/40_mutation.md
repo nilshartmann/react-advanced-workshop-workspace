@@ -28,3 +28,4 @@
 * Invalidation from Mutations: https://tanstack.com/query/latest/docs/framework/react/guides/invalidations-from-mutations
 * Updates from Mutation Responses:  https://tanstack.com/query/latest/docs/framework/react/guides/updates-from-mutation-responses
 * setQueryData: https://tanstack.com/query/latest/docs/reference/QueryClient/#queryclientsetquerydata
+* **zod** `safeParse`: https://zod.dev/?id=safeparse
