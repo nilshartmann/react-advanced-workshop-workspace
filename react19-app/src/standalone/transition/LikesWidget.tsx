@@ -1,6 +1,8 @@
-import React, { ReactNode, useState } from "react";
+import React, {ReactNode, useOptimistic, useState, useTransition} from "react";
+import {ErrorBoundary} from "react-error-boundary";
 import { twMerge } from "tailwind-merge";
 
+import {incrementLikeOnServer} from "./increment-like-on-server.ts";
 import styles from "./LoadingIndicator.module.css";
 
 type LikesWidgetProps = {
@@ -12,16 +14,49 @@ type LikesWidgetProps = {
 //  2. ErrorBoundary
 //  3. optimistic likes
 
-export default function LikesWidget({ initialLikes }: LikesWidgetProps) {
+// class A extends React.Component {
+//   this.state = {}
+//   render() {
+//
+//   }
+// }
+
+
+export default function LikeWidgetWrapper({ initialLikes }: LikesWidgetProps) {
+  return <ErrorBoundary
+    fallback={<h1>Fehler aufgetreten :-(</h1>}>
+    <LikesWidget initialLikes={initialLikes } />
+  </ErrorBoundary>
+}
+
+function LikesWidget({ initialLikes }: LikesWidgetProps) {
   const [likes, setLikes] = useState(initialLikes);
+  // const [loading, setLoading] = useState(false);
+
+
+  const [loading, startTransition] = useTransition();
+  const [optimisticLikes, setOptimisticLikes] =
+    useOptimistic(likes);
 
   const handleLikeClick = async () => {
+    startTransition(async () => {
+      setOptimisticLikes(likes + 1);
+
+      // "action"
+      // setLoading(true);
+      const newLikes = await incrementLikeOnServer();
+      setLikes(newLikes);
+      // .....
+      // setLoading(false);
+    });
     // todo
+
   };
 
   return (
-    <LikeButton onClick={handleLikeClick}>
-      <span>{likes}</span>
+    <LikeButton onClick={handleLikeClick} disabled={loading}>
+      <span>{optimisticLikes}</span>
+      {/*<span>Optimistic: {optimisticLikes}</span>*/}
       <HeartIcon />
     </LikeButton>
   );

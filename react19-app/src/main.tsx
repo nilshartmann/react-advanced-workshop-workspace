@@ -1,10 +1,11 @@
 // import App from "./standalone/context/ContextApp.tsx";
-// import App from "./standalone/transition/TransitionApp.tsx";
 import "./index.css";
 
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-import CompilerApp from "./standalone/compiler/CompilerApp.tsx";
+import App from "./standalone/transition/TransitionApp.tsx";
 
-ReactDOM.createRoot(document.getElementById("root")!).render(<CompilerApp />);
+// import CompilerApp from "./standalone/compiler/CompilerApp.tsx";
+
+ReactDOM.createRoot(document.getElementById("root")!).render(<App />);
