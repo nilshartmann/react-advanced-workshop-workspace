@@ -1,4 +1,4 @@
-# Übung: Renderzyklen optimieren
+# Übung: Transitions und optimistische Updates
 
 ## Vorbereitung
 
@@ -28,8 +28,3 @@
 * useOptimistic: https://19.react.dev/reference/react/useOptimistic
 * Error Boundaries (generell): https://19.react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary
   * react-error-boundary Package: https://www.npmjs.com/package/react-error-boundary
-
-* https://19.react.dev/reference/react/useMemo
-* https://19.react.dev/reference/react/useCallback
-* https://19.react.dev/reference/react/memo
-* React Dev Tools: https://19.react.dev/learn/react-developer-tools
