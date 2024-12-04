@@ -14,7 +14,8 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { Route as rootRoute } from "./routes/__root";
 import { Route as staticRouteImport } from "./routes/(static)/route";
-import { Route as UserIndexImport } from "./routes/user/index";
+import { Route as IndexImport } from "./routes/index";
+import { Route as TasksIndexImport } from "./routes/tasks/index";
 import { Route as staticAboutRouteImport } from "./routes/(static)/about/route";
 import { Route as staticPrivacyIndexImport } from "./routes/(static)/privacy/index";
 import { Route as staticAboutIndexImport } from "./routes/(static)/about/index";
@@ -22,24 +23,30 @@ import { Route as staticAboutProductsImport } from "./routes/(static)/about/prod
 
 // Create Virtual Routes
 
-const Import = createFileRoute("/")();
+const UserIndexLazyImport = createFileRoute("/user/")();
 
 // Create/Update Routes
 
 const staticRouteRoute = staticRouteImport.update({
   id: "/(static)",
-  getParentRoute: () => Route,
+  getParentRoute: () => IndexRoute,
 } as any);
 
-const Route = Import.update({
+const IndexRoute = IndexImport.update({
   id: "/",
   path: "/",
   getParentRoute: () => rootRoute,
 } as any);
 
-const UserIndexRoute = UserIndexImport.update({
+const UserIndexLazyRoute = UserIndexLazyImport.update({
   id: "/user/",
   path: "/user/",
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import("./routes/user/index.lazy").then((d) => d.Route));
+
+const TasksIndexRoute = TasksIndexImport.update({
+  id: "/tasks/",
+  path: "/tasks/",
   getParentRoute: () => rootRoute,
 } as any);
 
@@ -75,7 +82,7 @@ declare module "@tanstack/react-router" {
       id: "/";
       path: "/";
       fullPath: "/";
-      preLoaderRoute: typeof Import;
+      preLoaderRoute: typeof IndexImport;
       parentRoute: typeof rootRoute;
     };
     "/(static)": {
@@ -83,7 +90,7 @@ declare module "@tanstack/react-router" {
       path: "/";
       fullPath: "/";
       preLoaderRoute: typeof staticRouteImport;
-      parentRoute: typeof Route;
+      parentRoute: typeof IndexRoute;
     };
     "/(static)/about": {
       id: "/(static)/about";
@@ -92,11 +99,18 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof staticAboutRouteImport;
       parentRoute: typeof staticRouteImport;
     };
+    "/tasks/": {
+      id: "/tasks/";
+      path: "/tasks";
+      fullPath: "/tasks";
+      preLoaderRoute: typeof TasksIndexImport;
+      parentRoute: typeof rootRoute;
+    };
     "/user/": {
       id: "/user/";
       path: "/user";
       fullPath: "/user";
-      preLoaderRoute: typeof UserIndexImport;
+      preLoaderRoute: typeof UserIndexLazyImport;
       parentRoute: typeof rootRoute;
     };
     "/(static)/about/products": {
@@ -152,20 +166,21 @@ const staticRouteRouteWithChildren = staticRouteRoute._addFileChildren(
   staticRouteRouteChildren,
 );
 
-interface RouteChildren {
+interface IndexRouteChildren {
   staticRouteRoute: typeof staticRouteRouteWithChildren;
 }
 
-const RouteChildren: RouteChildren = {
+const IndexRouteChildren: IndexRouteChildren = {
   staticRouteRoute: staticRouteRouteWithChildren,
 };
 
-const RouteWithChildren = Route._addFileChildren(RouteChildren);
+const IndexRouteWithChildren = IndexRoute._addFileChildren(IndexRouteChildren);
 
 export interface FileRoutesByFullPath {
   "/": typeof staticRouteRouteWithChildren;
   "/about": typeof staticAboutRouteRouteWithChildren;
-  "/user": typeof UserIndexRoute;
+  "/tasks": typeof TasksIndexRoute;
+  "/user": typeof UserIndexLazyRoute;
   "/about/products": typeof staticAboutProductsRoute;
   "/about/": typeof staticAboutIndexRoute;
   "/privacy": typeof staticPrivacyIndexRoute;
@@ -173,7 +188,8 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   "/": typeof staticRouteRouteWithChildren;
-  "/user": typeof UserIndexRoute;
+  "/tasks": typeof TasksIndexRoute;
+  "/user": typeof UserIndexLazyRoute;
   "/about/products": typeof staticAboutProductsRoute;
   "/about": typeof staticAboutIndexRoute;
   "/privacy": typeof staticPrivacyIndexRoute;
@@ -181,10 +197,11 @@ export interface FileRoutesByTo {
 
 export interface FileRoutesById {
   __root__: typeof rootRoute;
-  "/": typeof RouteWithChildren;
+  "/": typeof IndexRouteWithChildren;
   "/(static)": typeof staticRouteRouteWithChildren;
   "/(static)/about": typeof staticAboutRouteRouteWithChildren;
-  "/user/": typeof UserIndexRoute;
+  "/tasks/": typeof TasksIndexRoute;
+  "/user/": typeof UserIndexLazyRoute;
   "/(static)/about/products": typeof staticAboutProductsRoute;
   "/(static)/about/": typeof staticAboutIndexRoute;
   "/(static)/privacy/": typeof staticPrivacyIndexRoute;
@@ -195,17 +212,19 @@ export interface FileRouteTypes {
   fullPaths:
     | "/"
     | "/about"
+    | "/tasks"
     | "/user"
     | "/about/products"
     | "/about/"
     | "/privacy";
   fileRoutesByTo: FileRoutesByTo;
-  to: "/" | "/user" | "/about/products" | "/about" | "/privacy";
+  to: "/" | "/tasks" | "/user" | "/about/products" | "/about" | "/privacy";
   id:
     | "__root__"
     | "/"
     | "/(static)"
     | "/(static)/about"
+    | "/tasks/"
     | "/user/"
     | "/(static)/about/products"
     | "/(static)/about/"
@@ -214,13 +233,15 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
-  Route: typeof RouteWithChildren;
-  UserIndexRoute: typeof UserIndexRoute;
+  IndexRoute: typeof IndexRouteWithChildren;
+  TasksIndexRoute: typeof TasksIndexRoute;
+  UserIndexLazyRoute: typeof UserIndexLazyRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  Route: RouteWithChildren,
-  UserIndexRoute: UserIndexRoute,
+  IndexRoute: IndexRouteWithChildren,
+  TasksIndexRoute: TasksIndexRoute,
+  UserIndexLazyRoute: UserIndexLazyRoute,
 };
 
 export const routeTree = rootRoute
@@ -234,11 +255,12 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/tasks/",
         "/user/"
       ]
     },
     "/": {
-      "filePath": "(static)",
+      "filePath": "index.tsx",
       "children": [
         "/(static)"
       ]
@@ -259,8 +281,11 @@ export const routeTree = rootRoute
         "/(static)/about/"
       ]
     },
+    "/tasks/": {
+      "filePath": "tasks/index.tsx"
+    },
     "/user/": {
-      "filePath": "user/index.tsx"
+      "filePath": "user/index.lazy.tsx"
     },
     "/(static)/about/products": {
       "filePath": "(static)/about/products.tsx",

@@ -30,6 +30,18 @@ export default function GlobalNavBar() {
         >
           Privacy
         </Link>
+        <Link
+          className={
+            "border-1 rounded border border-gray-800 p-2 text-gray-400 hover:bg-gray-100 hover:font-bold"
+          }
+          to={"/user"}
+          preload={"viewport"}
+          activeProps={{
+            className: "font-semibold underline",
+          }}
+        >
+          User
+        </Link>
       </div>
     </header>
   );
