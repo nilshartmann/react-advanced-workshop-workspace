@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/(static)/privacy/")({
+export const Route = createFileRoute("/_static/about/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  return <div>Hello "/privacy/"!</div>;
+  return <div>Hello "/about/"!</div>;
 }

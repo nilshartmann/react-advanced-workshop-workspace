@@ -1,13 +1,12 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/(static)/about")({
+export const Route = createFileRoute("/_static")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
   return (
-    <div>
-      Hello "/about-Layout"!
+    <div className={"bg-gray-100"}>
       <Outlet />
     </div>
   );

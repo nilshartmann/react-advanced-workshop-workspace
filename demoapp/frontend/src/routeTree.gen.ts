@@ -13,13 +13,13 @@ import { createFileRoute } from "@tanstack/react-router";
 // Import Routes
 
 import { Route as rootRoute } from "./routes/__root";
-import { Route as staticRouteImport } from "./routes/(static)/route";
+import { Route as StaticRouteImport } from "./routes/_static/route";
 import { Route as IndexImport } from "./routes/index";
 import { Route as TasksIndexImport } from "./routes/tasks/index";
-import { Route as staticAboutRouteImport } from "./routes/(static)/about/route";
-import { Route as staticPrivacyIndexImport } from "./routes/(static)/privacy/index";
-import { Route as staticAboutIndexImport } from "./routes/(static)/about/index";
-import { Route as staticAboutProductsImport } from "./routes/(static)/about/products";
+import { Route as StaticAboutRouteImport } from "./routes/_static/about/route";
+import { Route as StaticPrivacyIndexImport } from "./routes/_static/privacy/index";
+import { Route as StaticAboutIndexImport } from "./routes/_static/about/index";
+import { Route as StaticAboutProductsImport } from "./routes/_static/about/products";
 
 // Create Virtual Routes
 
@@ -27,9 +27,9 @@ const UserIndexLazyImport = createFileRoute("/user/")();
 
 // Create/Update Routes
 
-const staticRouteRoute = staticRouteImport.update({
-  id: "/(static)",
-  getParentRoute: () => IndexRoute,
+const StaticRouteRoute = StaticRouteImport.update({
+  id: "/_static",
+  getParentRoute: () => rootRoute,
 } as any);
 
 const IndexRoute = IndexImport.update({
@@ -50,28 +50,28 @@ const TasksIndexRoute = TasksIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any);
 
-const staticAboutRouteRoute = staticAboutRouteImport.update({
+const StaticAboutRouteRoute = StaticAboutRouteImport.update({
   id: "/about",
   path: "/about",
-  getParentRoute: () => staticRouteRoute,
+  getParentRoute: () => StaticRouteRoute,
 } as any);
 
-const staticPrivacyIndexRoute = staticPrivacyIndexImport.update({
+const StaticPrivacyIndexRoute = StaticPrivacyIndexImport.update({
   id: "/privacy/",
   path: "/privacy/",
-  getParentRoute: () => staticRouteRoute,
+  getParentRoute: () => StaticRouteRoute,
 } as any);
 
-const staticAboutIndexRoute = staticAboutIndexImport.update({
+const StaticAboutIndexRoute = StaticAboutIndexImport.update({
   id: "/",
   path: "/",
-  getParentRoute: () => staticAboutRouteRoute,
+  getParentRoute: () => StaticAboutRouteRoute,
 } as any);
 
-const staticAboutProductsRoute = staticAboutProductsImport.update({
+const StaticAboutProductsRoute = StaticAboutProductsImport.update({
   id: "/products",
   path: "/products",
-  getParentRoute: () => staticAboutRouteRoute,
+  getParentRoute: () => StaticAboutRouteRoute,
 } as any);
 
 // Populate the FileRoutesByPath interface
@@ -85,19 +85,19 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof IndexImport;
       parentRoute: typeof rootRoute;
     };
-    "/(static)": {
-      id: "/(static)";
-      path: "/";
-      fullPath: "/";
-      preLoaderRoute: typeof staticRouteImport;
-      parentRoute: typeof IndexRoute;
+    "/_static": {
+      id: "/_static";
+      path: "";
+      fullPath: "";
+      preLoaderRoute: typeof StaticRouteImport;
+      parentRoute: typeof rootRoute;
     };
-    "/(static)/about": {
-      id: "/(static)/about";
+    "/_static/about": {
+      id: "/_static/about";
       path: "/about";
       fullPath: "/about";
-      preLoaderRoute: typeof staticAboutRouteImport;
-      parentRoute: typeof staticRouteImport;
+      preLoaderRoute: typeof StaticAboutRouteImport;
+      parentRoute: typeof StaticRouteImport;
     };
     "/tasks/": {
       id: "/tasks/";
@@ -113,104 +113,97 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof UserIndexLazyImport;
       parentRoute: typeof rootRoute;
     };
-    "/(static)/about/products": {
-      id: "/(static)/about/products";
+    "/_static/about/products": {
+      id: "/_static/about/products";
       path: "/products";
       fullPath: "/about/products";
-      preLoaderRoute: typeof staticAboutProductsImport;
-      parentRoute: typeof staticAboutRouteImport;
+      preLoaderRoute: typeof StaticAboutProductsImport;
+      parentRoute: typeof StaticAboutRouteImport;
     };
-    "/(static)/about/": {
-      id: "/(static)/about/";
+    "/_static/about/": {
+      id: "/_static/about/";
       path: "/";
       fullPath: "/about/";
-      preLoaderRoute: typeof staticAboutIndexImport;
-      parentRoute: typeof staticAboutRouteImport;
+      preLoaderRoute: typeof StaticAboutIndexImport;
+      parentRoute: typeof StaticAboutRouteImport;
     };
-    "/(static)/privacy/": {
-      id: "/(static)/privacy/";
+    "/_static/privacy/": {
+      id: "/_static/privacy/";
       path: "/privacy";
       fullPath: "/privacy";
-      preLoaderRoute: typeof staticPrivacyIndexImport;
-      parentRoute: typeof staticRouteImport;
+      preLoaderRoute: typeof StaticPrivacyIndexImport;
+      parentRoute: typeof StaticRouteImport;
     };
   }
 }
 
 // Create and export the route tree
 
-interface staticAboutRouteRouteChildren {
-  staticAboutProductsRoute: typeof staticAboutProductsRoute;
-  staticAboutIndexRoute: typeof staticAboutIndexRoute;
+interface StaticAboutRouteRouteChildren {
+  StaticAboutProductsRoute: typeof StaticAboutProductsRoute;
+  StaticAboutIndexRoute: typeof StaticAboutIndexRoute;
 }
 
-const staticAboutRouteRouteChildren: staticAboutRouteRouteChildren = {
-  staticAboutProductsRoute: staticAboutProductsRoute,
-  staticAboutIndexRoute: staticAboutIndexRoute,
+const StaticAboutRouteRouteChildren: StaticAboutRouteRouteChildren = {
+  StaticAboutProductsRoute: StaticAboutProductsRoute,
+  StaticAboutIndexRoute: StaticAboutIndexRoute,
 };
 
-const staticAboutRouteRouteWithChildren =
-  staticAboutRouteRoute._addFileChildren(staticAboutRouteRouteChildren);
+const StaticAboutRouteRouteWithChildren =
+  StaticAboutRouteRoute._addFileChildren(StaticAboutRouteRouteChildren);
 
-interface staticRouteRouteChildren {
-  staticAboutRouteRoute: typeof staticAboutRouteRouteWithChildren;
-  staticPrivacyIndexRoute: typeof staticPrivacyIndexRoute;
+interface StaticRouteRouteChildren {
+  StaticAboutRouteRoute: typeof StaticAboutRouteRouteWithChildren;
+  StaticPrivacyIndexRoute: typeof StaticPrivacyIndexRoute;
 }
 
-const staticRouteRouteChildren: staticRouteRouteChildren = {
-  staticAboutRouteRoute: staticAboutRouteRouteWithChildren,
-  staticPrivacyIndexRoute: staticPrivacyIndexRoute,
+const StaticRouteRouteChildren: StaticRouteRouteChildren = {
+  StaticAboutRouteRoute: StaticAboutRouteRouteWithChildren,
+  StaticPrivacyIndexRoute: StaticPrivacyIndexRoute,
 };
 
-const staticRouteRouteWithChildren = staticRouteRoute._addFileChildren(
-  staticRouteRouteChildren,
+const StaticRouteRouteWithChildren = StaticRouteRoute._addFileChildren(
+  StaticRouteRouteChildren,
 );
 
-interface IndexRouteChildren {
-  staticRouteRoute: typeof staticRouteRouteWithChildren;
-}
-
-const IndexRouteChildren: IndexRouteChildren = {
-  staticRouteRoute: staticRouteRouteWithChildren,
-};
-
-const IndexRouteWithChildren = IndexRoute._addFileChildren(IndexRouteChildren);
-
 export interface FileRoutesByFullPath {
-  "/": typeof staticRouteRouteWithChildren;
-  "/about": typeof staticAboutRouteRouteWithChildren;
+  "/": typeof IndexRoute;
+  "": typeof StaticRouteRouteWithChildren;
+  "/about": typeof StaticAboutRouteRouteWithChildren;
   "/tasks": typeof TasksIndexRoute;
   "/user": typeof UserIndexLazyRoute;
-  "/about/products": typeof staticAboutProductsRoute;
-  "/about/": typeof staticAboutIndexRoute;
-  "/privacy": typeof staticPrivacyIndexRoute;
+  "/about/products": typeof StaticAboutProductsRoute;
+  "/about/": typeof StaticAboutIndexRoute;
+  "/privacy": typeof StaticPrivacyIndexRoute;
 }
 
 export interface FileRoutesByTo {
-  "/": typeof staticRouteRouteWithChildren;
+  "/": typeof IndexRoute;
+  "": typeof StaticRouteRouteWithChildren;
   "/tasks": typeof TasksIndexRoute;
   "/user": typeof UserIndexLazyRoute;
-  "/about/products": typeof staticAboutProductsRoute;
-  "/about": typeof staticAboutIndexRoute;
-  "/privacy": typeof staticPrivacyIndexRoute;
+  "/about/products": typeof StaticAboutProductsRoute;
+  "/about": typeof StaticAboutIndexRoute;
+  "/privacy": typeof StaticPrivacyIndexRoute;
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute;
-  "/": typeof IndexRouteWithChildren;
-  "/(static)": typeof staticRouteRouteWithChildren;
-  "/(static)/about": typeof staticAboutRouteRouteWithChildren;
+  "/": typeof IndexRoute;
+  "/_static": typeof StaticRouteRouteWithChildren;
+  "/_static/about": typeof StaticAboutRouteRouteWithChildren;
   "/tasks/": typeof TasksIndexRoute;
   "/user/": typeof UserIndexLazyRoute;
-  "/(static)/about/products": typeof staticAboutProductsRoute;
-  "/(static)/about/": typeof staticAboutIndexRoute;
-  "/(static)/privacy/": typeof staticPrivacyIndexRoute;
+  "/_static/about/products": typeof StaticAboutProductsRoute;
+  "/_static/about/": typeof StaticAboutIndexRoute;
+  "/_static/privacy/": typeof StaticPrivacyIndexRoute;
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
     | "/"
+    | ""
     | "/about"
     | "/tasks"
     | "/user"
@@ -218,28 +211,30 @@ export interface FileRouteTypes {
     | "/about/"
     | "/privacy";
   fileRoutesByTo: FileRoutesByTo;
-  to: "/" | "/tasks" | "/user" | "/about/products" | "/about" | "/privacy";
+  to: "/" | "" | "/tasks" | "/user" | "/about/products" | "/about" | "/privacy";
   id:
     | "__root__"
     | "/"
-    | "/(static)"
-    | "/(static)/about"
+    | "/_static"
+    | "/_static/about"
     | "/tasks/"
     | "/user/"
-    | "/(static)/about/products"
-    | "/(static)/about/"
-    | "/(static)/privacy/";
+    | "/_static/about/products"
+    | "/_static/about/"
+    | "/_static/privacy/";
   fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRouteWithChildren;
+  IndexRoute: typeof IndexRoute;
+  StaticRouteRoute: typeof StaticRouteRouteWithChildren;
   TasksIndexRoute: typeof TasksIndexRoute;
   UserIndexLazyRoute: typeof UserIndexLazyRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRouteWithChildren,
+  IndexRoute: IndexRoute,
+  StaticRouteRoute: StaticRouteRouteWithChildren,
   TasksIndexRoute: TasksIndexRoute,
   UserIndexLazyRoute: UserIndexLazyRoute,
 };
@@ -255,30 +250,27 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/_static",
         "/tasks/",
         "/user/"
       ]
     },
     "/": {
-      "filePath": "index.tsx",
+      "filePath": "index.tsx"
+    },
+    "/_static": {
+      "filePath": "_static/route.tsx",
       "children": [
-        "/(static)"
+        "/_static/about",
+        "/_static/privacy/"
       ]
     },
-    "/(static)": {
-      "filePath": "(static)/route.tsx",
-      "parent": "/",
+    "/_static/about": {
+      "filePath": "_static/about/route.tsx",
+      "parent": "/_static",
       "children": [
-        "/(static)/about",
-        "/(static)/privacy/"
-      ]
-    },
-    "/(static)/about": {
-      "filePath": "(static)/about/route.tsx",
-      "parent": "/(static)",
-      "children": [
-        "/(static)/about/products",
-        "/(static)/about/"
+        "/_static/about/products",
+        "/_static/about/"
       ]
     },
     "/tasks/": {
@@ -287,17 +279,17 @@ export const routeTree = rootRoute
     "/user/": {
       "filePath": "user/index.lazy.tsx"
     },
-    "/(static)/about/products": {
-      "filePath": "(static)/about/products.tsx",
-      "parent": "/(static)/about"
+    "/_static/about/products": {
+      "filePath": "_static/about/products.tsx",
+      "parent": "/_static/about"
     },
-    "/(static)/about/": {
-      "filePath": "(static)/about/index.tsx",
-      "parent": "/(static)/about"
+    "/_static/about/": {
+      "filePath": "_static/about/index.tsx",
+      "parent": "/_static/about"
     },
-    "/(static)/privacy/": {
-      "filePath": "(static)/privacy/index.tsx",
-      "parent": "/(static)"
+    "/_static/privacy/": {
+      "filePath": "_static/privacy/index.tsx",
+      "parent": "/_static"
     }
   }
 }
