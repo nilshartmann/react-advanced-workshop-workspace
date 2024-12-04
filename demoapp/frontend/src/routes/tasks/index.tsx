@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Task } from "../../types.ts";
+import {Task, TaskSchema} from "../../types.ts";
 import { useQuery } from "@tanstack/react-query";
 import {taskApiKy} from "../../task-api-ky.ts";
 import {TaskSummaryCard} from "../../components/TaskSummaryCard.tsx";
@@ -14,8 +14,11 @@ function RouteComponent() {
     async queryFn() {
       // return fetch("http://localhost:3002/api/tasks")
       //   .then((r) => r.json());
-      const result = await taskApiKy.get<Task[]>("api/tasks").json()
-      return result;
+      const result = await taskApiKy.get("api/tasks").json()
+
+      const task = TaskSchema.array().parse(result)
+
+      return task;
       // if (typeof result === "string") {
       //   result.toUpperCase();
       // }

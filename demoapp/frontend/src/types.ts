@@ -1,28 +1,80 @@
-export type TaskState = "new" | "in_progress" | "done";
+import z from "zod";
 
-export type Task = {
-  id: string;
-  title: string;
-  description: string;
-  effort: number;
-  state: TaskState;
-  votes: number;
-  dueDate: string;
-};
+// export type TaskState = "new" | "in_progress" | "done";
 
-export type Insight = {
-  id: string;
-  author: string;
-  text: string;
-  confidence?: number;
-};
+const TaskStateSchema = z.enum(["new", "in_progress", "done"]);
 
-type Resource = {
-  id: string;
-  title: string;
-  description?: string | null;
-  url: string;
-};
+// zod
+// export type Task = {
+//   id: string;
+//   title: string;
+//   description: string;
+//   effort: number;
+//   // state: TaskState;
+//   votes: number;
+//   dueDate: string;
+// };
+
+// open-typed
+
+// const EffortSchema = z.number().min(1).max(10);
+
+export const TaskSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string(),
+  effort: z.number().min(1).max(10),
+  // effort: EffortSchema,
+  state: TaskStateSchema,
+  votes: z.number(),
+  dueDate: z.string().date(),
+});
+
+export type Task = z.infer<typeof TaskSchema>;
+
+// const data: unknown = {}; // ky.get("...").json();
+// const task = TaskSchema.parse(data);
+// showTask(task);
+
+// function showTask(t: Task) {
+
+// }
+
+// export type Insight = {
+//   id: string;
+//   author: string;
+//   text: string;
+//   confidence?: number;
+// };
+
+
+export const InsightSchema = z.object({
+  id: z.string(),
+  author: z.string().min(1),
+  text: z.string().min(1),
+  confidence: z.number().min(0).max(5).optional(),
+});
+
+export type Insight = z.infer<typeof InsightSchema>;
+
+
+// type Resource = {
+//   id: string;
+//   title: string;
+//   description?: string | null;
+//   url: string;
+// };
+
+
+export const ResourceSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string().optional(),
+  url: z.string(),
+});
+
+export type Resource = z.infer<typeof ResourceSchema>;
+
 
 // -------- DIESE FUNKTIONEN SIND NUR ZUM TESTEN DER ZOD-TYPEN
 // -- wenn hier alles kompiliert, sind die Typen korrekt
