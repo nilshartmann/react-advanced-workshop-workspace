@@ -9,6 +9,6 @@ import ky from "ky";
 //  Man könnte hier für den Test z.B. eine eigene URL setzen o.ä.
 
 export const taskApiKy = ky.create({
-  retry: 0,
-  prefixUrl: "http://localhost:3002",
+	prefixUrl: "http://localhost:3002",
+	retry: 0
 });

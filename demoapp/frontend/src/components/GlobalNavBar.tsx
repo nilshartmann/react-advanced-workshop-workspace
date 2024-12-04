@@ -12,6 +12,17 @@ export default function GlobalNavBar() {
           className={
             "border-1 rounded border border-gray-800 p-2 text-gray-400 hover:bg-gray-100 hover:font-bold"
           }
+          to={"/tasks"}
+          activeProps={{
+            className: "font-semibold underline",
+          }}
+        >
+          Tasks
+        </Link>
+        <Link
+          className={
+            "border-1 rounded border border-gray-800 p-2 text-gray-400 hover:bg-gray-100 hover:font-bold"
+          }
           to={"/about"}
           activeProps={{
             className: "font-semibold underline",
