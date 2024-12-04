@@ -8,40 +8,220 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from "@tanstack/react-router";
+
 // Import Routes
 
 import { Route as rootRoute } from "./routes/__root";
+import { Route as staticRouteImport } from "./routes/(static)/route";
+import { Route as UserIndexImport } from "./routes/user/index";
+import { Route as staticAboutRouteImport } from "./routes/(static)/about/route";
+import { Route as staticPrivacyIndexImport } from "./routes/(static)/privacy/index";
+import { Route as staticAboutIndexImport } from "./routes/(static)/about/index";
+import { Route as staticAboutProductsImport } from "./routes/(static)/about/products";
+
+// Create Virtual Routes
+
+const Import = createFileRoute("/")();
 
 // Create/Update Routes
+
+const staticRouteRoute = staticRouteImport.update({
+  id: "/(static)",
+  getParentRoute: () => Route,
+} as any);
+
+const Route = Import.update({
+  id: "/",
+  path: "/",
+  getParentRoute: () => rootRoute,
+} as any);
+
+const UserIndexRoute = UserIndexImport.update({
+  id: "/user/",
+  path: "/user/",
+  getParentRoute: () => rootRoute,
+} as any);
+
+const staticAboutRouteRoute = staticAboutRouteImport.update({
+  id: "/about",
+  path: "/about",
+  getParentRoute: () => staticRouteRoute,
+} as any);
+
+const staticPrivacyIndexRoute = staticPrivacyIndexImport.update({
+  id: "/privacy/",
+  path: "/privacy/",
+  getParentRoute: () => staticRouteRoute,
+} as any);
+
+const staticAboutIndexRoute = staticAboutIndexImport.update({
+  id: "/",
+  path: "/",
+  getParentRoute: () => staticAboutRouteRoute,
+} as any);
+
+const staticAboutProductsRoute = staticAboutProductsImport.update({
+  id: "/products",
+  path: "/products",
+  getParentRoute: () => staticAboutRouteRoute,
+} as any);
 
 // Populate the FileRoutesByPath interface
 
 declare module "@tanstack/react-router" {
-  interface FileRoutesByPath {}
+  interface FileRoutesByPath {
+    "/": {
+      id: "/";
+      path: "/";
+      fullPath: "/";
+      preLoaderRoute: typeof Import;
+      parentRoute: typeof rootRoute;
+    };
+    "/(static)": {
+      id: "/(static)";
+      path: "/";
+      fullPath: "/";
+      preLoaderRoute: typeof staticRouteImport;
+      parentRoute: typeof Route;
+    };
+    "/(static)/about": {
+      id: "/(static)/about";
+      path: "/about";
+      fullPath: "/about";
+      preLoaderRoute: typeof staticAboutRouteImport;
+      parentRoute: typeof staticRouteImport;
+    };
+    "/user/": {
+      id: "/user/";
+      path: "/user";
+      fullPath: "/user";
+      preLoaderRoute: typeof UserIndexImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/(static)/about/products": {
+      id: "/(static)/about/products";
+      path: "/products";
+      fullPath: "/about/products";
+      preLoaderRoute: typeof staticAboutProductsImport;
+      parentRoute: typeof staticAboutRouteImport;
+    };
+    "/(static)/about/": {
+      id: "/(static)/about/";
+      path: "/";
+      fullPath: "/about/";
+      preLoaderRoute: typeof staticAboutIndexImport;
+      parentRoute: typeof staticAboutRouteImport;
+    };
+    "/(static)/privacy/": {
+      id: "/(static)/privacy/";
+      path: "/privacy";
+      fullPath: "/privacy";
+      preLoaderRoute: typeof staticPrivacyIndexImport;
+      parentRoute: typeof staticRouteImport;
+    };
+  }
 }
 
 // Create and export the route tree
 
-export interface FileRoutesByFullPath {}
+interface staticAboutRouteRouteChildren {
+  staticAboutProductsRoute: typeof staticAboutProductsRoute;
+  staticAboutIndexRoute: typeof staticAboutIndexRoute;
+}
 
-export interface FileRoutesByTo {}
+const staticAboutRouteRouteChildren: staticAboutRouteRouteChildren = {
+  staticAboutProductsRoute: staticAboutProductsRoute,
+  staticAboutIndexRoute: staticAboutIndexRoute,
+};
+
+const staticAboutRouteRouteWithChildren =
+  staticAboutRouteRoute._addFileChildren(staticAboutRouteRouteChildren);
+
+interface staticRouteRouteChildren {
+  staticAboutRouteRoute: typeof staticAboutRouteRouteWithChildren;
+  staticPrivacyIndexRoute: typeof staticPrivacyIndexRoute;
+}
+
+const staticRouteRouteChildren: staticRouteRouteChildren = {
+  staticAboutRouteRoute: staticAboutRouteRouteWithChildren,
+  staticPrivacyIndexRoute: staticPrivacyIndexRoute,
+};
+
+const staticRouteRouteWithChildren = staticRouteRoute._addFileChildren(
+  staticRouteRouteChildren,
+);
+
+interface RouteChildren {
+  staticRouteRoute: typeof staticRouteRouteWithChildren;
+}
+
+const RouteChildren: RouteChildren = {
+  staticRouteRoute: staticRouteRouteWithChildren,
+};
+
+const RouteWithChildren = Route._addFileChildren(RouteChildren);
+
+export interface FileRoutesByFullPath {
+  "/": typeof staticRouteRouteWithChildren;
+  "/about": typeof staticAboutRouteRouteWithChildren;
+  "/user": typeof UserIndexRoute;
+  "/about/products": typeof staticAboutProductsRoute;
+  "/about/": typeof staticAboutIndexRoute;
+  "/privacy": typeof staticPrivacyIndexRoute;
+}
+
+export interface FileRoutesByTo {
+  "/": typeof staticRouteRouteWithChildren;
+  "/user": typeof UserIndexRoute;
+  "/about/products": typeof staticAboutProductsRoute;
+  "/about": typeof staticAboutIndexRoute;
+  "/privacy": typeof staticPrivacyIndexRoute;
+}
 
 export interface FileRoutesById {
   __root__: typeof rootRoute;
+  "/": typeof RouteWithChildren;
+  "/(static)": typeof staticRouteRouteWithChildren;
+  "/(static)/about": typeof staticAboutRouteRouteWithChildren;
+  "/user/": typeof UserIndexRoute;
+  "/(static)/about/products": typeof staticAboutProductsRoute;
+  "/(static)/about/": typeof staticAboutIndexRoute;
+  "/(static)/privacy/": typeof staticPrivacyIndexRoute;
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: never;
+  fullPaths:
+    | "/"
+    | "/about"
+    | "/user"
+    | "/about/products"
+    | "/about/"
+    | "/privacy";
   fileRoutesByTo: FileRoutesByTo;
-  to: never;
-  id: "__root__";
+  to: "/" | "/user" | "/about/products" | "/about" | "/privacy";
+  id:
+    | "__root__"
+    | "/"
+    | "/(static)"
+    | "/(static)/about"
+    | "/user/"
+    | "/(static)/about/products"
+    | "/(static)/about/"
+    | "/(static)/privacy/";
   fileRoutesById: FileRoutesById;
 }
 
-export interface RootRouteChildren {}
+export interface RootRouteChildren {
+  Route: typeof RouteWithChildren;
+  UserIndexRoute: typeof UserIndexRoute;
+}
 
-const rootRouteChildren: RootRouteChildren = {};
+const rootRouteChildren: RootRouteChildren = {
+  Route: RouteWithChildren,
+  UserIndexRoute: UserIndexRoute,
+};
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
@@ -52,7 +232,47 @@ export const routeTree = rootRoute
   "routes": {
     "__root__": {
       "filePath": "__root.tsx",
-      "children": []
+      "children": [
+        "/",
+        "/user/"
+      ]
+    },
+    "/": {
+      "filePath": "(static)",
+      "children": [
+        "/(static)"
+      ]
+    },
+    "/(static)": {
+      "filePath": "(static)/route.tsx",
+      "parent": "/",
+      "children": [
+        "/(static)/about",
+        "/(static)/privacy/"
+      ]
+    },
+    "/(static)/about": {
+      "filePath": "(static)/about/route.tsx",
+      "parent": "/(static)",
+      "children": [
+        "/(static)/about/products",
+        "/(static)/about/"
+      ]
+    },
+    "/user/": {
+      "filePath": "user/index.tsx"
+    },
+    "/(static)/about/products": {
+      "filePath": "(static)/about/products.tsx",
+      "parent": "/(static)/about"
+    },
+    "/(static)/about/": {
+      "filePath": "(static)/about/index.tsx",
+      "parent": "/(static)/about"
+    },
+    "/(static)/privacy/": {
+      "filePath": "(static)/privacy/index.tsx",
+      "parent": "/(static)"
     }
   }
 }

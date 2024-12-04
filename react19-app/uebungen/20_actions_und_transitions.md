@@ -28,3 +28,4 @@
 * useOptimistic: https://19.react.dev/reference/react/useOptimistic
 * Error Boundaries (generell): https://19.react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary
   * react-error-boundary Package: https://www.npmjs.com/package/react-error-boundary
+  
