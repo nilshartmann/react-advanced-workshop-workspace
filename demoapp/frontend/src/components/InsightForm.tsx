@@ -6,6 +6,9 @@ import Form from "./Form.tsx";
 import TextInput from "./TextInput.tsx";
 import Button from "./Button.tsx";
 import FormFieldError from "./FormFieldError.tsx";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {taskApiKy} from "../task-api-ky.ts";
+import FormLabel from "./FormLabel.tsx";
 
 type InsightFormProps = {
   taskId: string;
@@ -30,10 +33,36 @@ export default function InsightForm({ taskId }: InsightFormProps) {
     // }
   });
 
-  console.log("dirty fields", form.formState.dirtyFields)
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    async mutationFn(newInsight: NewInsight) {
+      return taskApiKy.post(`api/tasks/${taskId}/insights`, {
+        json: newInsight
+      });
+    },
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ["tasks", taskId, "insights"]
+      })
+    }
+  });
+
+  const subscription = form.watch( () =>{
+    console.log("mutation rest")
+    mutation.reset()
+    subscription.unsubscribe();
+  } );
+
+  console.log("dirty fields", form.formState.touchedFields)
 
   const handleSubmit  =(newInsight: NewInsight)  => {
     console.log("werte aus dem formular", newInsight);
+    mutation.mutateAsync(newInsight)
+      .then( (data) => {
+       // form.reset();
+
+    })
   }
 
   const handleInvalidData = (err: any) => {
@@ -44,8 +73,10 @@ export default function InsightForm({ taskId }: InsightFormProps) {
     <Form onSubmit={form.handleSubmit(handleSubmit, handleInvalidData)}>
       <TextInput {...form.register("text")} />
       <FormFieldError>
-        {form.formState.errors.text?.message}
+        {form.formState.touchedFields.text &&
+          form.formState.errors.text?.message}
       </FormFieldError>
+      <FormLabel>Author</FormLabel>
       <TextInput {...form.register("author")} />
       <FormFieldError>
         {form.formState.errors.author?.message}
@@ -59,7 +90,9 @@ export default function InsightForm({ taskId }: InsightFormProps) {
       <FormFieldError>
         {form.formState.errors.confidence?.message}
       </FormFieldError>
-      <Button type={"submit"}>Save</Button>
+      <Button type={"submit"} disabled={mutation.isPending}>Save</Button>
+      {mutation.isSuccess && <p>Hurra! HAt geklappt!</p>}
+      {mutation.isError && <p>Es ist ein Fehler aufgetreten!</p>}
     </Form>
   );
 }
