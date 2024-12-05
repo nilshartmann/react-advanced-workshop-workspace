@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import {AppLink} from "./_stories/AppLink.tsx";
 
 export default function GlobalNavBar() {
   return (
@@ -19,17 +20,18 @@ export default function GlobalNavBar() {
         >
           Tasks
         </Link>
-        <Link
-          className={
-            "border-1 rounded border border-gray-800 p-2 text-gray-400 hover:bg-gray-100 hover:font-bold"
-          }
-          to={"/about"}
-          activeProps={{
-            className: "font-semibold underline",
-          }}
-        >
-          About
-        </Link>
+        <AppLink to={"/about"}>About</AppLink>
+        {/*<Link*/}
+        {/*  className={*/}
+        {/*    "border-1 rounded border border-gray-800 p-2 text-gray-400 hover:bg-gray-100 hover:font-bold"*/}
+        {/*  }*/}
+        {/*  to={"/about"}*/}
+        {/*  activeProps={{*/}
+        {/*    className: "font-semibold underline",*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  About*/}
+        {/*</Link>*/}
         <Link
           className={
             "border-1 rounded border border-gray-800 p-2 text-gray-400 hover:bg-gray-100 hover:font-bold"
