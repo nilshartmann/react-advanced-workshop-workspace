@@ -71,17 +71,22 @@ export default function InsightForm({ taskId }: InsightFormProps) {
 
   return (
     <Form onSubmit={form.handleSubmit(handleSubmit, handleInvalidData)}>
-      <TextInput {...form.register("text")} />
+      <h1>Add new insight</h1>
+      <FormLabel htmlFor={"text"} >Text</FormLabel>
+      <TextInput id={"text"} {...form.register("text")} />
       <FormFieldError>
         {form.formState.touchedFields.text &&
           form.formState.errors.text?.message}
       </FormFieldError>
-      <FormLabel>Author</FormLabel>
-      <TextInput {...form.register("author")} />
+      <FormLabel htmlFor={"author"} >Author</FormLabel>
+      <TextInput id={"author"} {...form.register("author")} />
       <FormFieldError>
         {form.formState.errors.author?.message}
       </FormFieldError>
+
+      <FormLabel htmlFor={"confidence"} >Confidence</FormLabel>
       <TextInput
+        id={"confidence"}
         type={"number"}
         {...form.register("confidence", {
           valueAsNumber: true,
