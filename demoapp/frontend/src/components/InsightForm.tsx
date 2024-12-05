@@ -1,124 +1,65 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { HTTPError } from "ky";
-import { FieldErrors, useForm } from "react-hook-form";
-import z from "zod";
-
-import { taskApiKy } from "../task-api-ky.ts";
 import { InsightSchema } from "../types.ts";
-import Button from "./Button.tsx";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import z from "zod";
 import Form from "./Form.tsx";
-import FormControl from "./FormControl.tsx";
-import FormFieldError from "./FormFieldError.tsx";
-import FormLabel from "./FormLabel.tsx";
 import TextInput from "./TextInput.tsx";
-
-const NewInsightSchema = InsightSchema.omit({ id: true });
-
-type NewInsight = z.infer<typeof NewInsightSchema>;
+import Button from "./Button.tsx";
+import FormFieldError from "./FormFieldError.tsx";
 
 type InsightFormProps = {
   taskId: string;
 };
+
+const NewInsightSchema = InsightSchema.omit({ id: true });
+type NewInsight = z.infer<typeof NewInsightSchema>;
+
+const data = {
+  text: "jojojojo",
+  author: "Karl Müller",
+  confidence: 3
+}
+
 export default function InsightForm({ taskId }: InsightFormProps) {
-  const queryClient = useQueryClient();
-  const addInsightMutation = useMutation({
-    async mutationFn(newInsight: NewInsight) {
-      try {
-        return await taskApiKy.post(`api/tasks/${taskId}/insights`, {
-          json: newInsight,
-        });
-      } catch (error) {
-        if (error instanceof HTTPError && error.response.status === 400) {
-          const errorResponse = (await error.response.json()) as any;
-          if (errorResponse.error) {
-            throw new Error(errorResponse.error);
-          }
-        }
-        throw error;
-      }
-    },
-    onSuccess() {
-      return queryClient.invalidateQueries({
-        queryKey: ["tasks", taskId, "insights"],
-      });
-    },
-    // Nach abgeschlossener Mutation:
-    //   -> Erfolg: Meldung anzeigen + Form leeren
-    //   -> Fehler: Fehlermeldung anzeigen
-    // Beide Anzeigen sollen nach der ersten Änderung wieder
-    //  verschwinden
-    //  -> Wir können das hier machen
-    //     oder mit mutateAsync
-    //  -> wann machen wir was?
-
-    // onSettled(data, error) {
-    //   if (data) {
-    //     // Erfolgsfall
-    //     form.reset();
-    //   }
-    //   const subscription = form.watch(() => {
-    //     // In beiden Fällen nach erster Änderung Form zurücksetzen
-    //     addInsightMutation.reset();
-    //     subscription.unsubscribe();
-    //   });
-    // },
-  });
-
   const form = useForm<NewInsight>({
     resolver: zodResolver(NewInsightSchema),
     mode: "onBlur",
+    // defaultValues: data
+    // values: {
+    //
+    // }
   });
 
-  const errorCount = Object.keys(form.formState.errors).length;
+  console.log("dirty fields", form.formState.dirtyFields)
 
-  async function onSubmit(data: NewInsight) {
-    try {
-      await addInsightMutation.mutateAsync(data);
-      form.reset();
-    } finally {
-      const subscription = form.watch(() => {
-        // In beiden Fällen nach erster Änderung Form zurücksetzen
-        addInsightMutation.reset();
-        subscription.unsubscribe();
-      });
-    }
+  const handleSubmit  =(newInsight: NewInsight)  => {
+    console.log("werte aus dem formular", newInsight);
   }
 
-  function onInvalidSubmit(err: FieldErrors) {
-    console.log("err submit", err);
+  const handleInvalidData = (err: any) => {
+    console.log("invalid data", err);
   }
 
   return (
-    <Form onSubmit={form.handleSubmit(onSubmit, onInvalidSubmit)}>
-      <div>ErrorCount {errorCount}</div>
-      <FormControl>
-        <FormLabel htmlFor={"author"}>Author</FormLabel>
-        <TextInput id="author" type={"author"} {...form.register("author")} />
-        <FormFieldError>{form.formState.errors.author?.message}</FormFieldError>
-      </FormControl>
-
-      <FormControl>
-        <FormLabel>Text</FormLabel>
-        <TextInput type={"text"} {...form.register("text")} />
-        <FormFieldError>{form.formState.errors.text?.message} </FormFieldError>
-      </FormControl>
-      <FormControl>
-        <FormLabel>Confidence</FormLabel>
-        <TextInput
-          type={"number"}
-          {...form.register("confidence", { valueAsNumber: true })}
-        />
-        <FormFieldError>
-          {form.formState.errors.confidence?.message}
-        </FormFieldError>
-      </FormControl>
-
+    <Form onSubmit={form.handleSubmit(handleSubmit, handleInvalidData)}>
+      <TextInput {...form.register("text")} />
+      <FormFieldError>
+        {form.formState.errors.text?.message}
+      </FormFieldError>
+      <TextInput {...form.register("author")} />
+      <FormFieldError>
+        {form.formState.errors.author?.message}
+      </FormFieldError>
+      <TextInput
+        type={"number"}
+        {...form.register("confidence", {
+          valueAsNumber: true,
+        })}
+      />
+      <FormFieldError>
+        {form.formState.errors.confidence?.message}
+      </FormFieldError>
       <Button type={"submit"}>Save</Button>
-      {addInsightMutation.isError && (
-        <FormFieldError>{String(addInsightMutation.error)}</FormFieldError>
-      )}
-      {addInsightMutation.isSuccess && <p>Alles roger!</p>}
     </Form>
   );
 }

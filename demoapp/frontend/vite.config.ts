@@ -3,7 +3,7 @@ import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
-const enableCompiler = false;
+const enableCompiler = true;
 
 const apiBackend = process.env.API_BACKEND ?? "http://localhost:3002";
 console.log("API Backend", apiBackend);

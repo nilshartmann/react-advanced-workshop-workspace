@@ -8,6 +8,7 @@ import { PageTitle } from "../../../components/Heading.tsx";
 import TaskDetails from "../../../components/TaskDetails.tsx";
 import { Suspense } from "react";
 import { resourceQueryOptions } from "../../../components/resources-query.ts";
+import InsightForm from "../../../components/InsightForm.tsx";
 
 export const Route = createFileRoute("/tasks/$taskId")({
   component: TaskPageLayoutComponent,
@@ -42,6 +43,8 @@ function TaskPageLayoutComponent() {
       {/* Ab React 19 ---v */}
       {/*<title>{result.data.title}</title>*/}
       {/*<PageTitle>{result.data.title}</PageTitle>*/}
+
+      <InsightForm taskId={taskId}/>
 
       <Suspense fallback={<h1>Task wird geladen....</h1>}>
         <TaskLoader taskId={taskId} />
