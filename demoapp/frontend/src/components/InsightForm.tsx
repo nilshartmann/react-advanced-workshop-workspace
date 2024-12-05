@@ -99,13 +99,14 @@ export default function InsightForm({ taskId }: InsightFormProps) {
       </FormControl>
 
       <FormControl>
-        <FormLabel>Text</FormLabel>
-        <TextInput type={"text"} {...form.register("text")} />
+        <FormLabel htmlFor={"text"}>Text</FormLabel>
+        <TextInput id="text" type={"text"} {...form.register("text")} />
         <FormFieldError>{form.formState.errors.text?.message} </FormFieldError>
       </FormControl>
       <FormControl>
-        <FormLabel>Confidence</FormLabel>
+        <FormLabel id={"confidence"}>Confidence</FormLabel>
         <TextInput
+          aria-labelledby={"confidence"}
           type={"number"}
           {...form.register("confidence", { valueAsNumber: true })}
         />

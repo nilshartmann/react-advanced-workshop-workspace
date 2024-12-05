@@ -1,9 +1,12 @@
+import { waitFor } from "@storybook/test";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
-import { afterAll, afterEach, beforeAll, it } from "vitest";
+import { afterAll, afterEach, beforeAll, expect, it, test } from "vitest";
 
+import InsightForm from "./components/InsightForm.tsx";
 import { createQueryClient } from "./create-query-client.tsx";
 import TaskLoader from "./TaskLoader.tsx";
 
@@ -21,6 +24,12 @@ const handlers = [
         dueDate: "2024-12-01",
       },
     ]);
+  }),
+  http.post("http://localhost:3002/api/tasks/3/insights", async (x) => {
+    const j = await x.request.json();
+    console.log("BODY", j);
+
+    return HttpResponse.json({});
   }),
 ];
 
@@ -41,4 +50,56 @@ it("should load tasks", async () => {
   );
 
   await screen.findByRole("heading");
+});
+
+test("insight form", async () => {
+  render(
+    <QueryClientProvider client={createQueryClient()}>
+      <InsightForm taskId={"3"} />
+    </QueryClientProvider>,
+  );
+
+  const user = userEvent.setup();
+
+  await user.type(screen.getByLabelText(/Author/i), "Klaus Dieter");
+  await user.type(screen.getByLabelText(/Text/i), "Noice bug report");
+  await user.type(screen.getByLabelText(/confidence/i), "2");
+
+  await user.click(screen.getByRole("button", { name: /save/i }));
+
+  await screen.findByText(/Alles roger!/i);
+
+  expect(screen.getByRole("textbox", { name: /Author/i })).toHaveValue("");
+  expect(screen.getByRole("textbox", { name: /Text/i })).toHaveValue("");
+  expect(screen.getByRole("spinbutton", { name: /confidence/i })).toHaveValue(
+    null,
+  );
+
+  await user.type(screen.getByLabelText(/Author/i), "Trump");
+
+  expect(screen.queryByText(/Alles roger!/i)).not.toBeInTheDocument();
+
+  server.use(
+    // override the initial "GET /greeting" request handler
+    // to return a 500 Server Error
+    http.post("http://localhost:3002/api/tasks/3/insights", async (req) => {
+      const body = await req.request.json();
+      console.log("second res", body);
+      return HttpResponse.json({ error: "Not for you!" }, { status: 400 });
+    }),
+  );
+
+  await user.type(screen.getByLabelText(/Author/i), "Trump");
+  await user.type(screen.getByLabelText(/Text/i), "fasdhfjaksdfadsf");
+  expect(screen.getByLabelText(/confidence/i)).toHaveValue(null);
+  // await user.type(screen.getByLabelText(/confidence/i), "");
+  await user.clear(screen.getByLabelText(/confidence/i));
+  await user.type(screen.getByLabelText(/confidence/i), "2");
+  expect(screen.getByLabelText(/confidence/i)).toHaveValue(2);
+  screen.logTestingPlaygroundURL();
+
+  await waitFor(async () => {
+    user.click(screen.getByRole("button", { name: /save/i }));
+    screen.findByText(/Not for you/i);
+  });
 });
