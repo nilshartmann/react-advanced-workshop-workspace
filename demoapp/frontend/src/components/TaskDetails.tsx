@@ -4,6 +4,7 @@ import { H4 } from "./Heading.tsx";
 import InsightList from "./InsightList.tsx";
 import TaskStateBadge from "./TaskStateBadge.tsx";
 import TaskVotesBadge from "./TaskVotesBadge.tsx";
+import {Suspense} from "react";
 
 type TaskDetailsProps = {
   task: Task;
@@ -31,7 +32,9 @@ export default function TaskDetails({ task }: TaskDetailsProps) {
         </div>
       </section>
       <section>
-        <InsightList taskId={task.id} />
+        <Suspense fallback={"Insights werden geladen"}>
+          <InsightList taskId={task.id} />
+        </Suspense>
       </section>
     </div>
   );

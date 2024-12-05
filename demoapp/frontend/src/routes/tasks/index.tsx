@@ -31,7 +31,7 @@ function RouteComponent() {
     async queryFn() {
       // return fetch("http://localhost:3002/api/tasks")
       //   .then((r) => r.json());
-      const result = await taskApiKy.get(`api/tasks?orderBy=${orderBy}&slowdown=2000`).json();
+      const result = await taskApiKy.get(`api/tasks?orderBy=${orderBy}`).json();
 
       const task = TaskSchema.array().parse(result);
 

@@ -17,6 +17,7 @@ import { Route as StaticRouteImport } from "./routes/_static/route";
 import { Route as IndexImport } from "./routes/index";
 import { Route as TasksIndexImport } from "./routes/tasks/index";
 import { Route as StaticAboutRouteImport } from "./routes/_static/about/route";
+import { Route as TasksTaskIdIndexImport } from "./routes/tasks/$taskId/index";
 import { Route as StaticPrivacyIndexImport } from "./routes/_static/privacy/index";
 import { Route as StaticAboutIndexImport } from "./routes/_static/about/index";
 import { Route as StaticAboutProductsImport } from "./routes/_static/about/products";
@@ -54,6 +55,12 @@ const StaticAboutRouteRoute = StaticAboutRouteImport.update({
   id: "/about",
   path: "/about",
   getParentRoute: () => StaticRouteRoute,
+} as any);
+
+const TasksTaskIdIndexRoute = TasksTaskIdIndexImport.update({
+  id: "/tasks/$taskId/",
+  path: "/tasks/$taskId/",
+  getParentRoute: () => rootRoute,
 } as any);
 
 const StaticPrivacyIndexRoute = StaticPrivacyIndexImport.update({
@@ -134,6 +141,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof StaticPrivacyIndexImport;
       parentRoute: typeof StaticRouteImport;
     };
+    "/tasks/$taskId/": {
+      id: "/tasks/$taskId/";
+      path: "/tasks/$taskId";
+      fullPath: "/tasks/$taskId";
+      preLoaderRoute: typeof TasksTaskIdIndexImport;
+      parentRoute: typeof rootRoute;
+    };
   }
 }
 
@@ -175,6 +189,7 @@ export interface FileRoutesByFullPath {
   "/about/products": typeof StaticAboutProductsRoute;
   "/about/": typeof StaticAboutIndexRoute;
   "/privacy": typeof StaticPrivacyIndexRoute;
+  "/tasks/$taskId": typeof TasksTaskIdIndexRoute;
 }
 
 export interface FileRoutesByTo {
@@ -185,6 +200,7 @@ export interface FileRoutesByTo {
   "/about/products": typeof StaticAboutProductsRoute;
   "/about": typeof StaticAboutIndexRoute;
   "/privacy": typeof StaticPrivacyIndexRoute;
+  "/tasks/$taskId": typeof TasksTaskIdIndexRoute;
 }
 
 export interface FileRoutesById {
@@ -197,6 +213,7 @@ export interface FileRoutesById {
   "/_static/about/products": typeof StaticAboutProductsRoute;
   "/_static/about/": typeof StaticAboutIndexRoute;
   "/_static/privacy/": typeof StaticPrivacyIndexRoute;
+  "/tasks/$taskId/": typeof TasksTaskIdIndexRoute;
 }
 
 export interface FileRouteTypes {
@@ -209,9 +226,18 @@ export interface FileRouteTypes {
     | "/user"
     | "/about/products"
     | "/about/"
-    | "/privacy";
+    | "/privacy"
+    | "/tasks/$taskId";
   fileRoutesByTo: FileRoutesByTo;
-  to: "/" | "" | "/tasks" | "/user" | "/about/products" | "/about" | "/privacy";
+  to:
+    | "/"
+    | ""
+    | "/tasks"
+    | "/user"
+    | "/about/products"
+    | "/about"
+    | "/privacy"
+    | "/tasks/$taskId";
   id:
     | "__root__"
     | "/"
@@ -221,7 +247,8 @@ export interface FileRouteTypes {
     | "/user/"
     | "/_static/about/products"
     | "/_static/about/"
-    | "/_static/privacy/";
+    | "/_static/privacy/"
+    | "/tasks/$taskId/";
   fileRoutesById: FileRoutesById;
 }
 
@@ -230,6 +257,7 @@ export interface RootRouteChildren {
   StaticRouteRoute: typeof StaticRouteRouteWithChildren;
   TasksIndexRoute: typeof TasksIndexRoute;
   UserIndexLazyRoute: typeof UserIndexLazyRoute;
+  TasksTaskIdIndexRoute: typeof TasksTaskIdIndexRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -237,6 +265,7 @@ const rootRouteChildren: RootRouteChildren = {
   StaticRouteRoute: StaticRouteRouteWithChildren,
   TasksIndexRoute: TasksIndexRoute,
   UserIndexLazyRoute: UserIndexLazyRoute,
+  TasksTaskIdIndexRoute: TasksTaskIdIndexRoute,
 };
 
 export const routeTree = rootRoute
@@ -252,7 +281,8 @@ export const routeTree = rootRoute
         "/",
         "/_static",
         "/tasks/",
-        "/user/"
+        "/user/",
+        "/tasks/$taskId/"
       ]
     },
     "/": {
@@ -290,6 +320,9 @@ export const routeTree = rootRoute
     "/_static/privacy/": {
       "filePath": "_static/privacy/index.tsx",
       "parent": "/_static"
+    },
+    "/tasks/$taskId/": {
+      "filePath": "tasks/$taskId/index.tsx"
     }
   }
 }
