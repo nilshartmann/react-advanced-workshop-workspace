@@ -5,7 +5,7 @@ import {InsightSchema} from "../types.ts";
 export const insightQueryOptions = (taskId: string) => queryOptions({
 	queryKey: ["tasks", taskId, "insights"],
 	async queryFn() {
-		const response = await taskApiKy.get(`api/tasks/${taskId}/insights?slowdown=2000`).json();
+		const response = await taskApiKy.get(`api/tasks/${taskId}/insights`).json();
 		return InsightSchema.array().parse(response);
 	}
 })

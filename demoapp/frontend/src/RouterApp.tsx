@@ -11,6 +11,9 @@ const queryClient = createQueryClient();
 // Set up a Router instance
 const router = createRouter({
   routeTree,
+  context: {
+    queryClient: queryClient
+  }
 });
 
 // Register things for typesafety
